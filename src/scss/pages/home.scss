@@ -1,0 +1,143 @@
+@use "../global/" as *;
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans&family=Noto+Sans+JP&family=Jura&family=Noto+Serif&family=Comfortaa&family=Roboto+Serif:ital,opsz,wght@1,8..144,100&family=Roboto&display=swap");
+
+$notosans: "Noto Sans JP", "Noto Sans", sans-serif;
+$notoserif: "Noto Serif", serif;
+$bebas: "Bebas Neue", cursive;
+$jura: "Jura", sans-serif;
+$roboto: "Roboto", sans-serif;
+$robotoSerif: "Roboto Serif", serif;
+$comfortaa: "Comfortaa", cursive;
+
+body {
+  background-image: linear-gradient(rgba(3, 192, 60, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(3, 192, 60, 0.3) 1px, transparent 1px);
+  background-size: 1em 1em;
+  overflow: hidden;
+}
+
+ul {
+  margin: 0;
+}
+
+.l-canvas {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gallery-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.gallery {
+  list-style: none;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 17.1875vw);
+  grid-row-gap: 60px;
+  grid-column-gap: 60px;
+  width: calc(103.125vw + 300px);
+  padding: 30px;
+  box-sizing: content-box;
+  z-index: 1;
+}
+
+.image {
+  position: relative;
+  width: 17.1875vw;
+  height: 23.4375vw;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: hotpink;
+  background-size: cover;
+}
+
+.image:nth-of-type(2n) {
+  margin: -14.84375vw 0 0;
+  position: relative;
+  width: 17.1875vw;
+  height: 23.4375vw;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: lightblue;
+}
+
+.image:nth-of-type(1) {
+  background-color: #1a1a1a;
+  background-image: url("/img/1.jpeg");
+}
+
+.image:nth-of-type(2) {
+  background-color: #1a1a1a;
+  background-image: url("/img/2.jpeg");
+}
+.image:nth-of-type(3) {
+  background-color: #1a1a1a;
+  background-image: url("/img/3.jpeg");
+}
+.image:nth-of-type(4) {
+  background-color: #1a1a1a;
+  background-image: url("/img/4.jpeg");
+}
+.image:nth-of-type(5) {
+  background-color: #1a1a1a;
+  background-image: url("/img/5.jpeg");
+}
+.image:nth-of-type(6) {
+  background-color: #1a1a1a;
+  background-image: url("/img/6.jpeg");
+}
+.image:nth-of-type(7) {
+  background-color: #1a1a1a;
+  background-image: url("/img/7.jpeg");
+}
+.image:nth-of-type(8) {
+  background-color: #1a1a1a;
+  background-image: url("/img/8.jpeg");
+}
+.image:nth-of-type(9) {
+  background-color: #1a1a1a;
+  background-image: url("/img/9.jpeg");
+}
+
+.image:nth-of-type(10) {
+  background-color: #1a1a1a;
+  background-image: url("/img/10.jpeg");
+}
+.image:nth-of-type(11) {
+  background-color: #1a1a1a;
+  background-image: url("/img/11.jpeg");
+}
+.image:nth-of-type(12) {
+  background-color: #1a1a1a;
+  background-image: url("/img/12.jpeg");
+}
+.image:nth-of-type(13) {
+  background-color: #1a1a1a;
+  background-image: url("/img/13.jpeg");
+}
+.image:nth-of-type(14) {
+  background-color: #1a1a1a;
+  background-image: url("/img/14.jpeg");
+}
+.image:nth-of-type(15) {
+  background-color: #1a1a1a;
+  background-image: url("/img/15.jpeg");
+}
+.image:nth-of-type(16) {
+  background-color: #1a1a1a;
+  background-image: url("/img/16.jpeg");
+}
+.image:nth-of-type(17) {
+  background-color: #1a1a1a;
+  background-image: url("/img/17.jpeg");
+}
+.image:nth-of-type(18) {
+  background-color: #1a1a1a;
+  background-image: url("/img/18.jpeg");
+}
