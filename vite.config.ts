@@ -1,11 +1,11 @@
-import glsl from 'vite-plugin-glsl'
-import { defineConfig } from 'vite'
+import glsl from "vite-plugin-glsl";
+import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [glsl()],
-  base: './',
+  base: "./",
   server: {
-    host: true
-  }
-})
+    host: true,
+  },
+});
