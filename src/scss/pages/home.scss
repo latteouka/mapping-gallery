@@ -10,9 +10,9 @@ $robotoSerif: "Roboto Serif", serif;
 $comfortaa: "Comfortaa", cursive;
 
 body {
-  background-image: linear-gradient(rgba(3, 192, 60, 0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(3, 192, 60, 0.3) 1px, transparent 1px);
-  background-size: 1em 1em;
+  // background-image: linear-gradient(rgba(3, 192, 60, 0.3) 1px, transparent 1px),
+  //   linear-gradient(90deg, rgba(3, 192, 60, 0.3) 1px, transparent 1px);
+  // background-size: 1em 1em;
   overflow: hidden;
 }
 
@@ -55,6 +55,7 @@ ul {
   overflow: hidden;
   background-color: hotpink;
   background-size: cover;
+  opacity: 0;
 }
 
 .image:nth-of-type(2n) {

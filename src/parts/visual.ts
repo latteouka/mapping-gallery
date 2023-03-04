@@ -3,11 +3,14 @@ import { Canvas } from "../webgl/canvas";
 import { Object3D } from "three/src/core/Object3D";
 import { Update } from "../libs/update";
 import { Item } from "./Item";
+import { lenis } from "./SmoothScroll";
+import { Post } from "./post";
 
 export class Visual extends Canvas {
   private _con: Object3D;
   // mesh objects
   private _items: Item[] = [];
+  // private post: Post;
 
   constructor(opt: any) {
     super(opt);
@@ -21,6 +24,14 @@ export class Visual extends Canvas {
       this._items.push(item);
       this._con.add(item.mesh);
     }
+
+    lenis.on("scroll", ({ velocity }: any) => {
+      for (let i = 0; i < this._items.length; i++) {
+        this._items[i].updateScroll(velocity);
+      }
+    });
+
+    // this.post = new Post(this.renderer, this.mainScene, this.cameraPers);
 
     this._resize();
   }
@@ -44,6 +55,7 @@ export class Visual extends Canvas {
 
   _resize(): void {
     super._resize();
+    // this.post.resize();
 
     const w = Func.instance.sw();
     const h = Func.instance.sh();
