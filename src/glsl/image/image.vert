@@ -3,6 +3,7 @@ uniform float u_scrollVelocity;
 uniform vec2 u_meshSize;
 uniform vec2 u_textureSize;
 uniform vec2 u_resolution;
+uniform bool u_isPC;
 
 varying vec3 v_pos;
 varying vec2 v_uv;
@@ -25,11 +26,19 @@ void main(){
   float y = 0.0;
   float z = 0.0;
 
+  float intensity = 0.0;
+
+  if (u_isPC) {
+    intensity = 30.0;
+  } else {
+    intensity = 80.0;
+  }
+
   if(u_scrollVelocity > 0.0){
-    z = -cos((coord.y) * PI ) * u_scrollVelocity * -25.0;
+    z = -cos((coord.y) * PI ) * u_scrollVelocity * -intensity;
   }
   else {
-    z = cos((coord.y) * PI) * u_scrollVelocity * 25.0;
+    z = cos((coord.y) * PI) * u_scrollVelocity * intensity;
   }
 
   vec3 curve = vec3(x, y, z);

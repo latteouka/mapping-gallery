@@ -64,6 +64,9 @@ export class Item extends MyObject3D {
         u_resolution: {
           value: new THREE.Vector2(Func.instance.sw(), Func.instance.sh()),
         },
+        u_isPC: {
+          value: Func.instance.sw() > 800,
+        },
       },
       transparent: true,
       opacity: 0.1,
@@ -91,6 +94,10 @@ export class Item extends MyObject3D {
 
   protected _resize(): void {
     super._resize();
+
+    const material = this.mesh.material as THREE.ShaderMaterial;
+    material.uniforms.u_isPC.value = Func.instance.sw() > 800;
+
     this.mesh.scale.set(this._element.width, this._element.height, 1);
     this.mesh.position.set(
       this._element.position.x,
