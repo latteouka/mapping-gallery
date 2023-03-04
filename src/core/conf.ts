@@ -15,7 +15,7 @@ export class Conf {
   public FLG_STATS: boolean = this.IS_BUILD ? false : false;
 
   // パス
-  public PATH_IMG: string = "./assets/img/";
+  public PATH_IMG: string = "./img/";
 
   // タッチデバイス
   public USE_TOUCH: boolean = Util.instance.isTouchDevice();
