@@ -85,7 +85,7 @@ export class Item extends MyObject3D {
     this.mesh.position.set(
       this._element.position.x,
       this._element.position.y,
-      Math.random() * 0.0001
+      0
     );
   }
 

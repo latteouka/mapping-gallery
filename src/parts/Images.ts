@@ -144,10 +144,10 @@ export class Image {
       this._element.getBoundingClientRect().y <
       -Func.instance.sw() * 0.46933333 * 1.5
     ) {
-      this._translateY += Func.instance.sw() * 0.704 * 4 + 104;
+      this._translateY += Func.instance.sw() * 0.704 * 6 + 156;
     }
     if (this._element.getBoundingClientRect().y > Func.instance.sh() * 1.4) {
-      this._translateY -= Func.instance.sw() * 0.704 * 4 + 104;
+      this._translateY -= Func.instance.sw() * 0.704 * 6 + 156;
     }
     this._element.style.transform = `translate(0, ${this._translateY}px)`;
 
