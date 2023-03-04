@@ -28,6 +28,14 @@ export class Images {
   }
 
   resize() {
+    if (Func.instance.sw() < 800) {
+      this.resize_sp();
+    } else {
+      this.resize_pc();
+    }
+  }
+
+  resize_pc() {
     const gallery = document.querySelector(".gallery")! as HTMLElement;
 
     // responsive gallery
@@ -36,6 +44,24 @@ export class Images {
       Func.instance.sw() * 0.171875 -
       (Func.instance.sw() - Func.instance.sw() * 0.171875 * 4 - 300) / 2 +
       30;
+    this.offsetY = (Func.instance.sh() - galleryHeight) / 2;
+    gallery.style.transform = `translate(-${this.offsetX}px, ${this.offsetY}px)`;
+
+    // all images
+    for (let i = 0; i < this.images.length; i++) {
+      this.images[i].resize();
+    }
+  }
+
+  resize_sp() {
+    const gallery = document.querySelector(".gallery")! as HTMLElement;
+
+    // responsive gallery
+    const galleryHeight = gallery.clientHeight;
+    this.offsetX =
+      Func.instance.sw() * 0.46933333 -
+      (Func.instance.sw() - Func.instance.sw() * 0.46933333 * 2 - 78) / 2 +
+      13;
     this.offsetY = (Func.instance.sh() - galleryHeight) / 2;
     gallery.style.transform = `translate(-${this.offsetX}px, ${this.offsetY}px)`;
 
@@ -87,16 +113,41 @@ export class Image {
   }
 
   update(vel: number) {
+    if (Func.instance.sw() < 800) {
+      this.update_sp(vel);
+    } else {
+      this.update_pc(vel);
+    }
+  }
+
+  update_pc(vel: number) {
     // move item
     this._translateY += -vel;
     if (
       this._element.getBoundingClientRect().y <
-      -Func.instance.sw() * 0.234375
+      -Func.instance.sw() * 0.234375 * 0.8
     ) {
       this._translateY += Func.instance.sw() * 0.234375 * 3 + 180;
     }
-    if (this._element.getBoundingClientRect().y > Func.instance.sh()) {
+    if (this._element.getBoundingClientRect().y > Func.instance.sh() * 1.05) {
       this._translateY -= Func.instance.sw() * 0.234375 * 3 + 180;
+    }
+    this._element.style.transform = `translate(0, ${this._translateY}px)`;
+
+    this.updateProperties();
+  }
+
+  update_sp(vel: number) {
+    // move item
+    this._translateY += -vel;
+    if (
+      this._element.getBoundingClientRect().y <
+      -Func.instance.sw() * 0.46933333 * 1.5
+    ) {
+      this._translateY += Func.instance.sw() * 0.704 * 4 + 104;
+    }
+    if (this._element.getBoundingClientRect().y > Func.instance.sh() * 1.4) {
+      this._translateY -= Func.instance.sw() * 0.704 * 4 + 104;
     }
     this._element.style.transform = `translate(0, ${this._translateY}px)`;
 
