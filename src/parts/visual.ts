@@ -4,7 +4,6 @@ import { Object3D } from "three/src/core/Object3D";
 import { Update } from "../libs/update";
 import { Item } from "./Item";
 import { lenis } from "./SmoothScroll";
-import { Post } from "./post";
 
 export class Visual extends Canvas {
   private _con: Object3D;
