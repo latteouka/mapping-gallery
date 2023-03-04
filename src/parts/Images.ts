@@ -125,11 +125,11 @@ export class Image {
     this._translateY += -vel;
     if (
       this._element.getBoundingClientRect().y <
-      -Func.instance.sw() * 0.234375 * 0.8
+      -Func.instance.sw() * 0.234375
     ) {
       this._translateY += Func.instance.sw() * 0.234375 * 3 + 180;
     }
-    if (this._element.getBoundingClientRect().y > Func.instance.sh() * 1.05) {
+    if (this._element.getBoundingClientRect().y > Func.instance.sh()) {
       this._translateY -= Func.instance.sw() * 0.234375 * 3 + 180;
     }
     this._element.style.transform = `translate(0, ${this._translateY}px)`;

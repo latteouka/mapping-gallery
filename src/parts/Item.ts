@@ -7,7 +7,7 @@ import { Image } from "./Images";
 import { Func } from "../core/func";
 
 // normal plane
-// const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
+const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
 
 // create an plane with border radius
 const roundedRectShape = new THREE.Shape();
@@ -23,6 +23,8 @@ const roundedRectShape = new THREE.Shape();
   ctx.quadraticCurveTo(x, y, x, y + radius);
 })(roundedRectShape, 0, 0, 1, 1, 0.05);
 const geometry2 = new THREE.ShapeGeometry(roundedRectShape);
+// must do this
+geometry2.center();
 
 const noises = [
   "/img/water.png",
@@ -63,6 +65,8 @@ export class Item extends MyObject3D {
           value: new THREE.Vector2(Func.instance.sw(), Func.instance.sh()),
         },
       },
+      transparent: true,
+      opacity: 0.1,
     });
 
     this.mesh = new THREE.Mesh(geometry2, material);
