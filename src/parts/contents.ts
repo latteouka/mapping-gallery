@@ -1,5 +1,5 @@
 import { MyDisplay } from "../core/myDisplay";
-import { Images } from "./Images";
+import { GridItems } from "./GridItems";
 import { Visual } from "./visual";
 
 // -----------------------------------------
@@ -7,12 +7,12 @@ import { Visual } from "./visual";
 // -----------------------------------------
 export class Contents extends MyDisplay {
   // dom images
-  private _images: Images;
+  private _images: GridItems;
 
   constructor(opt: any) {
     super(opt);
 
-    this._images = new Images();
+    this._images = new GridItems();
 
     const visual = new Visual({
       el: document.querySelector(".l-canvas"),

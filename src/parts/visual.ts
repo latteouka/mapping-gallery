@@ -2,17 +2,19 @@ import { Func } from "../core/func";
 import { Canvas } from "../webgl/canvas";
 import { Object3D } from "three/src/core/Object3D";
 import { Update } from "../libs/update";
-import { Item } from "./Item";
+import { ImageItem, ThreeItem } from "./Item";
 import { lenis } from "./SmoothScroll";
-import { Image } from "./Images";
+import { Image } from "./GridItems";
+import Stats from "stats.js";
 // import gsap from "gsap";
 
 // const scroll = { value: 0 };
 export class Visual extends Canvas {
   private _con: Object3D;
   // mesh objects
-  private _items: Item[] = [];
+  private _items: (ImageItem | ThreeItem)[] = [];
   // private post: Post;
+  private _stats: Stats;
 
   constructor(opt: any) {
     super(opt);
@@ -21,6 +23,8 @@ export class Visual extends Canvas {
     this.mainScene.add(this._con);
 
     this.generateItemsPc(opt.images);
+    this._stats = new Stats();
+    document.body.appendChild(this._stats.dom);
 
     lenis.on("scroll", ({ velocity }: any) => {
       for (let i = 0; i < this._items.length; i++) {
@@ -47,7 +51,12 @@ export class Visual extends Canvas {
   protected generateItemsPc(images: Image[]) {
     for (let i = 0; i < images.length; i++) {
       const image = images[i];
-      const item = new Item(image);
+      let item;
+      if (i === 8) {
+        item = new ThreeItem(image);
+      } else {
+        item = new ImageItem(image);
+      }
       this._items.push(item);
       this._con.add(item.mesh);
     }
@@ -62,8 +71,10 @@ export class Visual extends Canvas {
   }
 
   private _render(): void {
-    this.renderer.setClearColor("#fff", 0);
+    this._stats.begin();
+    this.renderer.setClearColor("#000", 1);
     this.renderer.render(this.mainScene, this.cameraPers);
+    this._stats.end();
   }
 
   public isNowRenderFrame(): boolean {
@@ -82,7 +93,7 @@ export class Visual extends Canvas {
 
     this._updateOrthCamera(this.cameraOrth, w, h);
 
-    this.cameraPers.fov = 90;
+    this.cameraPers.fov = 45;
     this._updatePersCamera(this.cameraPers, w, h);
 
     let pixelRatio: number = window.devicePixelRatio || 1;

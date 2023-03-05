@@ -2,7 +2,7 @@ import { Func } from "../core/func";
 import { MousePointer } from "../core/mousePointer";
 import { lenis } from "./SmoothScroll";
 
-export class Images {
+export class GridItems {
   targetName: string = ".image";
   images: Image[] = [];
   offsetX: number = 0;
@@ -81,17 +81,16 @@ export class Images {
   }
 }
 
-export class Image {
+export class Grid {
   private _element: HTMLElement;
   private _translateX: number;
   private _translateY: number;
   width: number;
   height: number;
-  color: string;
-  img: string;
   position: { x: number; y: number } = { x: 0, y: 0 };
   dragTarget: { x: number; y: number } = { x: 0, y: 0 };
   private _mousePointer: MousePointer;
+  type: string = "default";
 
   constructor(image: HTMLElement) {
     this._element = image;
@@ -100,14 +99,6 @@ export class Image {
     this._translateY = 0;
     this.width = this._element.getBoundingClientRect().width;
     this.height = this._element.getBoundingClientRect().height;
-    this.color = getComputedStyle(this._element).getPropertyValue(
-      "background-color"
-    );
-
-    this.img = getComputedStyle(this._element)
-      .getPropertyValue("background-image")
-      .replace(/^url\(["']?/, "")
-      .replace(/["']?\)$/, "");
 
     this.updateProperties();
   }
@@ -213,5 +204,18 @@ export class Image {
     this._element.style.transform = `translate(0px, 0px)`;
     this._translateX = 0;
     this._translateY = 0;
+  }
+}
+
+export class Image extends Grid {
+  img: string;
+  constructor(image: HTMLElement) {
+    super(image);
+
+    this.type = "image";
+    this.img = getComputedStyle(image)
+      .getPropertyValue("background-image")
+      .replace(/^url\(["']?/, "")
+      .replace(/["']?\)$/, "");
   }
 }

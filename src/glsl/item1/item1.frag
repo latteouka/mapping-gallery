@@ -17,10 +17,8 @@ mat2 rotate2d(float _angle){
                 sin(_angle),cos(_angle));
 }
 
-float intensity = 0.003;
-
 void main(void) {
-  // float time = u_time * 0.0001;
+  float time = u_time * 0.0001;
 
   vec2 ratio = vec2(
       min((u_meshSize.x / u_meshSize.y) / (u_textureSize.x / u_textureSize.y), 1.0),
@@ -31,10 +29,10 @@ void main(void) {
 
   vec4 noise = texture2D(u_noiseTexture, uv);
   vec2 distortUv = uv + rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_scrollVelocity * 0.005;
-  distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityX * intensity;
-  distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityY * intensity;
+  // distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityX * 0.005;
+  // distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityY * 0.005;
 
-  vec4 color = texture2D(u_imageTexture, distortUv);
+  vec4 color = texture2D(u_noiseTexture, uv);
 
   gl_FragColor = color;
 }
