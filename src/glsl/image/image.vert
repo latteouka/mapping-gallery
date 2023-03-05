@@ -26,13 +26,16 @@ void main(){
 
   float intensity = 0.0;
   float rotateFactor = 0.0;
+  float dragIntensity = 0.0;
 
   if (u_isPC) {
     intensity = 50.0;
     rotateFactor = 10.0;
+    dragIntensity = 15.0;
   } else {
     intensity = 120.0;
     rotateFactor = 5.0;
+    dragIntensity = 40.0;
   }
 
   // slightly rotate the item
@@ -51,10 +54,10 @@ void main(){
   }
 
   if(u_dragVelocityX > 0.0){
-    z += cos((uvCurve.x) * PI ) * u_dragVelocityX * -15.0;
+    z += cos((uvCurve.x) * PI ) * u_dragVelocityX * -dragIntensity;
   }
   else {
-    z += -cos((uvCurve.x) * PI) * u_dragVelocityX * 15.0;
+    z += -cos((uvCurve.x) * PI) * u_dragVelocityX * dragIntensity;
   }
 
   if(u_dragVelocityY > 0.0){

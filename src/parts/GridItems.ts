@@ -147,7 +147,7 @@ export class Grid {
     // top
     if (
       this._element.getBoundingClientRect().y <
-      -Func.instance.sw() * 0.46933333 * 1.5
+      -Func.instance.sw() * 0.46933333 * 2
     ) {
       this._translateY += Func.instance.sw() * 0.704 * 6 + 156;
     }
@@ -163,7 +163,7 @@ export class Grid {
       this._translateX -= Func.instance.sw() * 0.46933333 * 4 + 104;
     }
     // bottom
-    if (this._element.getBoundingClientRect().y > Func.instance.sh() * 1.4) {
+    if (this._element.getBoundingClientRect().y > Func.instance.sh() * 2) {
       this._translateY -= Func.instance.sw() * 0.704 * 6 + 156;
     }
     this._element.style.transform = `translate(${this._translateX}px , ${this._translateY}px)`;
