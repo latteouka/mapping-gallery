@@ -31,11 +31,11 @@ void main(){
   if (u_isPC) {
     intensity = 50.0;
     rotateFactor = 10.0;
-    dragIntensity = 15.0;
+    dragIntensity = 30.0;
   } else {
     intensity = 120.0;
     rotateFactor = 5.0;
-    dragIntensity = 40.0;
+    dragIntensity = 400.0;
   }
 
   // slightly rotate the item
