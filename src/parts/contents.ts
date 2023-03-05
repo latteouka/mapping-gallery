@@ -14,7 +14,7 @@ export class Contents extends MyDisplay {
 
     this._images = new GridItems();
 
-    const visual = new Visual({
+    new Visual({
       el: document.querySelector(".l-canvas"),
       transparent: true,
       images: this._images.images,
