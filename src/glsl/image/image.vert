@@ -35,7 +35,7 @@ void main(){
   } else {
     intensity = 120.0;
     rotateFactor = 5.0;
-    dragIntensity = 400.0;
+    dragIntensity = 200.0;
   }
 
   // slightly rotate the item
