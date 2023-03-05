@@ -28,7 +28,9 @@ void main(void) {
   vec2 uv = v_uv;
 
   vec4 noise = texture2D(u_noiseTexture, uv);
-  vec2 distortUv = uv + rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * max(u_scrollVelocity, u_dragVelocityY) * 0.005;
+  vec2 distortUv = uv + rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_scrollVelocity * 0.005;
+  distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityX * 0.005;
+  distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityY * 0.005;
 
   vec4 color = texture2D(u_imageTexture, distortUv);
 

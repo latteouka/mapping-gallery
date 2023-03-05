@@ -4,7 +4,10 @@ import { Object3D } from "three/src/core/Object3D";
 import { Update } from "../libs/update";
 import { Item } from "./Item";
 import { lenis } from "./SmoothScroll";
+import { Image } from "./Images";
+// import gsap from "gsap";
 
+// const scroll = { value: 0 };
 export class Visual extends Canvas {
   private _con: Object3D;
   // mesh objects
@@ -17,12 +20,7 @@ export class Visual extends Canvas {
     this._con = new Object3D();
     this.mainScene.add(this._con);
 
-    for (let i = 0; i < opt.images.length; i++) {
-      const image = opt.images[i];
-      const item = new Item(image);
-      this._items.push(item);
-      this._con.add(item.mesh);
-    }
+    this.generateItemsPc(opt.images);
 
     lenis.on("scroll", ({ velocity }: any) => {
       for (let i = 0; i < this._items.length; i++) {
@@ -30,9 +28,29 @@ export class Visual extends Canvas {
       }
     });
 
+    // gsap.to(scroll, {
+    //   value: () => Func.instance.sw() * 10,
+    //   duration: 3,
+    //   ease: "strong.inOut",
+    //   onUpdate: () => {
+    //     const s = gsap.getProperty(scroll, "value");
+    //     console.log(s);
+    //     lenis.scrollTo(s);
+    //   },
+    // });
+
     // this.post = new Post(this.renderer, this.mainScene, this.cameraPers);
 
     this._resize();
+  }
+
+  protected generateItemsPc(images: Image[]) {
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+      const item = new Item(image);
+      this._items.push(item);
+      this._con.add(item.mesh);
+    }
   }
 
   protected _update(): void {

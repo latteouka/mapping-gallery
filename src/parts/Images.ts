@@ -41,6 +41,10 @@ export class Images {
     } else {
       this.resize_pc();
     }
+    for (let i = 0; i < this.images.length; i++) {
+      this.images[i].resize();
+    }
+    this.updateImages(0);
   }
 
   resize_pc() {
@@ -54,13 +58,6 @@ export class Images {
       30;
     this.offsetY = (Func.instance.sh() - galleryHeight) / 2;
     gallery.style.transform = `translate(-${this.offsetX}px, ${this.offsetY}px)`;
-
-    // all images
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].resize();
-    }
-
-    this.updatePosition();
   }
 
   resize_sp() {
@@ -74,26 +71,12 @@ export class Images {
       13;
     this.offsetY = (Func.instance.sh() - galleryHeight) / 2;
     gallery.style.transform = `translate(-${this.offsetX}px, ${this.offsetY}px)`;
-
-    // all images
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].resize();
-    }
-
-    this.updatePosition();
   }
 
   // move images with scroll velocity
   updateImages(vel: number) {
     for (let i = 0; i < this.images.length; i++) {
       this.images[i].update(vel);
-    }
-  }
-
-  // update positions
-  updatePosition() {
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].updateProperties();
     }
   }
 }
@@ -135,6 +118,7 @@ export class Image {
     } else {
       this.update_pc(vel);
     }
+    this.updateProperties();
   }
 
   update_pc(vel: number) {
@@ -163,8 +147,6 @@ export class Image {
       this._translateY -= Func.instance.sw() * 0.234375 * 3 + 180;
     }
     this._element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
-
-    this.updateProperties();
   }
 
   update_sp(vel: number) {
@@ -194,8 +176,6 @@ export class Image {
       this._translateY -= Func.instance.sw() * 0.704 * 6 + 156;
     }
     this._element.style.transform = `translate(${this._translateX}px , ${this._translateY}px)`;
-
-    this.updateProperties();
   }
 
   updateDrag() {
