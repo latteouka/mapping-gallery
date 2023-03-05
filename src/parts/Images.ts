@@ -181,12 +181,12 @@ export class Image {
     // left
     if (
       this._element.getBoundingClientRect().x <
-      -Func.instance.sw() * 0.46933333 * 1.3
+      -Func.instance.sw() * 0.46933333 * 2
     ) {
       this._translateX += Func.instance.sw() * 0.46933333 * 4 + 104;
     }
     // right
-    if (this._element.getBoundingClientRect().x > Func.instance.sw()) {
+    if (this._element.getBoundingClientRect().x > Func.instance.sw() * 1.3) {
       this._translateX -= Func.instance.sw() * 0.46933333 * 4 + 104;
     }
     // bottom
