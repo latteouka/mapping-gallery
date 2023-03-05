@@ -34,12 +34,12 @@ void main(){
     dragIntensity = 100.0;
   } else {
     intensity = 120.0;
-    rotateFactor = 5.0;
+    rotateFactor = 0.5;
     dragIntensity = 450.0;
   }
 
   // slightly rotate the item
-  float x = sin((coord.y)) * u_scrollVelocity / rotateFactor;
+  float x = 0.0;
   // float y = cos((uvCurve.x) * PI) * u_scrollVelocity / 50.0;
   float y = 0.0;
   float z = 0.0;
@@ -53,12 +53,16 @@ void main(){
     z += cos((coord.y) * PI) * u_scrollVelocity * intensity;
   }
 
+  x += sin((coord.y)) * u_scrollVelocity / rotateFactor;
+
   if(u_dragVelocityX > 0.0){
     z += cos((coord.x) * PI) * u_dragVelocityX * -dragIntensity;
   }
   else {
     z += cos((coord.x) * PI) * u_dragVelocityX * dragIntensity;
   }
+
+  x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
 
   if(u_dragVelocityY > 0.0){
     // z += -cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
