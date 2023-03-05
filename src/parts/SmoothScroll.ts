@@ -1,4 +1,5 @@
 import Lenis from "@studio-freight/lenis";
+import { Func } from "../core/func";
 
 export const lenis = new Lenis({
   duration: 2,
@@ -8,8 +9,10 @@ export const lenis = new Lenis({
 });
 
 function raf(time: number) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
+  if (Func.instance.sw() > 800) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
 }
 
 requestAnimationFrame(raf);
