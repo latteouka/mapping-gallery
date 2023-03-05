@@ -160,7 +160,7 @@ export class Grid {
       this._translateX -= Func.instance.sw() * 0.46933333 * 4 + 104;
     }
     // bottom
-    if (this._element.getBoundingClientRect().y > Func.instance.sh() * 1.2) {
+    if (this._element.getBoundingClientRect().y > Func.instance.sh()) {
       this._translateY -= Func.instance.sw() * 0.704 * 6 + 156;
     }
     this._element.style.transform = `translate(${this._translateX}px , ${this._translateY}px)`;
