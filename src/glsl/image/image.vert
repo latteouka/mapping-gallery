@@ -35,7 +35,7 @@ void main(){
   } else {
     intensity = 120.0;
     rotateFactor = 5.0;
-    dragIntensity = 400.0;
+    dragIntensity = 450.0;
   }
 
   // slightly rotate the item
@@ -66,7 +66,11 @@ void main(){
   }
   else {
     // z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
-    z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
+    if(u_isPC) {
+      z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
+    } else {
+      z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
+    }
   }
 
   vec3 curve = vec3(x, y, z);
