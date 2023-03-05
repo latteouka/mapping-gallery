@@ -54,10 +54,10 @@ void main(){
   }
 
   if(u_dragVelocityX > 0.0){
-    z += cos((uvCurve.x) * PI) * u_dragVelocityX * -dragIntensity;
+    z += cos((coord.x) * PI) * u_dragVelocityX * -dragIntensity;
   }
   else {
-    z += -cos((uvCurve.x) * PI) * u_dragVelocityX * dragIntensity;
+    z += cos((coord.x) * PI) * u_dragVelocityX * dragIntensity;
   }
 
   if(u_dragVelocityY > 0.0){
