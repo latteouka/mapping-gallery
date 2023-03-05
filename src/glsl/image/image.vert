@@ -61,12 +61,12 @@ void main(){
   }
 
   if(u_dragVelocityY > 0.0){
-    z += -cos((uvCurve.y) * PI ) * u_dragVelocityY * intensity;
-    z += cos((coord.y) * PI ) * u_dragVelocityY * -intensity;
+    z += -cos((uvCurve.y) * PI ) * u_dragVelocityY * dragIntensity;
+    z += cos((coord.y) * PI ) * u_dragVelocityY * -dragIntensity;
   }
   else {
-    z += cos((uvCurve.y) * PI) * u_dragVelocityY * intensity;
-    z += -cos((coord.y) * PI) * u_dragVelocityY * intensity;
+    z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
+    z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
   }
 
   vec3 curve = vec3(x, y, z);
