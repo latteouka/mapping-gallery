@@ -176,8 +176,8 @@ export class Grid {
   }
 
   updateDrag() {
-    this._translateX += this._mousePointer.velocityX * 1.3;
-    this._translateY += this._mousePointer.velocityY * 1.3;
+    this._translateX += this._mousePointer.velocityX * 1.5;
+    this._translateY += this._mousePointer.velocityY * 1.5;
 
     this._element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
     this.update(0);
