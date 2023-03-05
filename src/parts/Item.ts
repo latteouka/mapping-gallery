@@ -113,7 +113,7 @@ export class ImageItem extends Item {
       opacity: 0.1,
     });
 
-    this.mesh = new THREE.Mesh(geometry2, material);
+    this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.scale.set(this._element.width, this._element.height, 1);
     this.mesh.position.set(
       this._element.position.x,
