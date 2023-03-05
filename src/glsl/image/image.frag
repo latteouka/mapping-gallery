@@ -34,7 +34,8 @@ void main(void) {
   distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityX * intensity;
   distortUv += rotate2d(PI / 1.34) * vec2(noise.r, noise.g) * u_dragVelocityY * intensity;
 
-  vec4 color = texture2D(u_imageTexture, distortUv);
+  // vec4 color = texture2D(u_imageTexture, distortUv);
+  vec4 color = texture2D(u_imageTexture, uv);
 
   gl_FragColor = color;
 }

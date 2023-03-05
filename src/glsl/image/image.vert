@@ -82,5 +82,7 @@ void main(){
   vec3 curve = vec3(x, y, z);
   pos += curve * 0.03;
 
+  pos /= 0.98;
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

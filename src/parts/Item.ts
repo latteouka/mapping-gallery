@@ -159,18 +159,9 @@ export class ThreeItem extends Item {
       uniforms: {
         u_time: { value: Update.instance.cnt },
         u_scrollVelocity: { value: 0 },
-        u_imageTexture: {
-          value: new THREE.TextureLoader().load(this._element.img),
-        },
         u_noiseTexture: {
           // value: new THREE.TextureLoader().load("/img/cloudnoise.webp"),
           value: new THREE.TextureLoader().load(noises[2]),
-        },
-        u_meshSize: {
-          value: new THREE.Vector2(this._element.width, this._element.height),
-        },
-        u_textureSize: {
-          value: new THREE.Vector2(400, 600),
         },
         u_resolution: {
           value: new THREE.Vector2(Func.instance.sw(), Func.instance.sh()),
@@ -183,6 +174,19 @@ export class ThreeItem extends Item {
         },
         u_dragVelocityY: {
           value: this._mousePointer.velocityY,
+        },
+        u_color: {
+          value: new THREE.Color(0x51b1f5),
+        },
+        u_lightColor: {
+          value: new THREE.Color(0xffffff),
+        },
+        u_lightPos: {
+          value: new THREE.Vector3(
+            this._mousePointer.x,
+            this._mousePointer.y,
+            400
+          ),
         },
       },
       transparent: true,
@@ -218,6 +222,11 @@ export class ThreeItem extends Item {
     const material = this.mesh.material as THREE.ShaderMaterial;
     material.uniforms.u_dragVelocityX.value = this._mousePointer.velocityX;
     material.uniforms.u_dragVelocityY.value = this._mousePointer.velocityY;
+    material.uniforms.u_lightPos.value.set(
+      this._mousePointer.normal.x * Func.instance.sw(),
+      -this._mousePointer.normal.y * Func.instance.sh(),
+      400
+    );
   }
 
   protected _resize(): void {

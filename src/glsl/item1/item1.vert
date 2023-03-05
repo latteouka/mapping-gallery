@@ -8,13 +8,18 @@ uniform vec2 u_textureSize;
 uniform vec2 u_resolution;
 uniform bool u_isPC;
 
+uniform vec3 u_lightPos;
+
 varying vec3 v_pos;
+varying vec3 v_normal;
 varying vec2 v_uv;
+varying vec3 v_surfaceToLight;
 
 float PI = 3.1415926535897932384626433832795;
 
 void main(){
   v_pos = position;
+  v_normal = normal;
   v_uv = uv;
 
   vec3 pos = position;
@@ -82,4 +87,13 @@ void main(){
   pos += curve * 0.03;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+
+
+
+  // light direction
+  v_normal = normalize(normalMatrix * normal);
+  vec3 worldSurfacePos = vec3(mvPosition);
+  vec3 worldLightPos = vec3(viewMatrix * vec4(u_lightPos, 1.0));
+
+  v_surfaceToLight = normalize(worldLightPos - worldSurfacePos);
 }
