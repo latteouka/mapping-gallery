@@ -152,8 +152,8 @@ export class MousePointer {
     }
 
     /////////
-    const offsetX = (this.last.x - this.lerpOld.x) * 0.1;
-    const offsetY = (this.last.y - this.lerpOld.y) * 0.1;
+    const offsetX = (this.last.x - this.lerpOld.x) * 0.05;
+    const offsetY = (this.last.y - this.lerpOld.y) * 0.05;
 
     this.lerpOld.x += offsetX;
     this.lerpOld.y += offsetY;
