@@ -56,13 +56,15 @@ void main(){
   x += sin((coord.y)) * u_scrollVelocity / rotateFactor;
 
   if(u_dragVelocityX > 0.0){
+    x += -sin((coord.y)) * u_dragVelocityX / -rotateFactor;
     z += cos((coord.x) * PI) * u_dragVelocityX * -dragIntensity;
   }
   else {
+    x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
     z += cos((coord.x) * PI) * u_dragVelocityX * dragIntensity;
   }
 
-  x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
+  // x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
 
   if(u_dragVelocityY > 0.0){
     // z += -cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
