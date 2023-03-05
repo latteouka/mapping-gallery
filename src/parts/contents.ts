@@ -23,6 +23,7 @@ export class Contents extends MyDisplay {
 
   protected _update(): void {
     super._update();
+    this._images.updateDrag();
   }
 
   protected _resize(): void {

@@ -8,13 +8,17 @@ export class MousePointer {
   public x: number = window.innerWidth * 0.5;
   public y: number = window.innerHeight * 0.5;
   public old: Point = new Point();
+  public lerpOld: Point = new Point();
   public normal: Point = new Point();
   public easeNormal: Point = new Point();
   public start: Point = new Point();
+  public last: Point = new Point();
   public moveDist: Point = new Point();
   public dist: number = 0;
   public isDown: boolean = false;
   public usePreventDefault: boolean = true;
+  public velocityX: number = 0;
+  public velocityY: number = 0;
 
   public onSwipe: any;
 
@@ -24,36 +28,36 @@ export class MousePointer {
     if (Util.instance.isTouchDevice()) {
       const tg = document.querySelector(".l-canvas") || window;
       tg.addEventListener(
-        "touchstart",
+        "pointerdown",
         (e: any = {}) => {
           this._eTouchStart(e);
         },
         { passive: false }
       );
       tg.addEventListener(
-        "touchend",
+        "pointerup",
         () => {
           this._eTouchEnd();
         },
         { passive: false }
       );
       tg.addEventListener(
-        "touchmove",
+        "pointermove",
         (e: any = {}) => {
           this._eTouchMove(e);
         },
         { passive: false }
       );
     } else {
-      window.addEventListener("mousedown", (e: any = {}) => {
-        this._eDown(e);
-      });
-      window.addEventListener("mouseup", () => {
-        this._eUp();
-      });
-      window.addEventListener("mousemove", (e: any = {}) => {
-        this._eMove(e);
-      });
+      // window.addEventListener("pointerdown", (e: any = {}) => {
+      //   this._eDown(e);
+      // });
+      // window.addEventListener("pointerup", () => {
+      //   this._eUp();
+      // });
+      // window.addEventListener("pointermove", (e: any = {}) => {
+      //   this._eMove(e);
+      // });
       // document.addEventListener('wheel', (e) => {
       //     if(this.usePreventDefault) {
       //         e.preventDefault()
@@ -70,6 +74,15 @@ export class MousePointer {
       // }, {passive:false})
     }
 
+    window.addEventListener("pointerdown", (e: any = {}) => {
+      this._eDown(e);
+    });
+    window.addEventListener("pointerup", () => {
+      this._eUp();
+    });
+    window.addEventListener("pointermove", (e: any = {}) => {
+      this._eMove(e);
+    });
     this._updateHandler = this._update.bind(this);
     Update.instance.add(this._updateHandler);
   }
@@ -88,6 +101,9 @@ export class MousePointer {
     const p: Point = this._getTouchPoint(e);
     this.start.x = p.x;
     this.start.y = p.y;
+
+    this.lerpOld.x = this.x;
+    this.lerpOld.y = this.y;
   }
 
   private _eTouchEnd(): void {
@@ -110,8 +126,15 @@ export class MousePointer {
     const p: Point = this._getTouchPoint(e);
     this.old.x = this.x;
     this.old.y = this.y;
+
     this.x = p.x;
     this.y = p.y;
+
+    // record last point when isDown
+    if (this.isDown) {
+      this.last.x = this.x;
+      this.last.y = this.y;
+    }
 
     const dx = this.old.x - this.x;
     const dy = this.old.y - this.y;
@@ -128,6 +151,9 @@ export class MousePointer {
 
     this.start.x = this.x;
     this.start.y = this.y;
+
+    this.lerpOld.x = this.x;
+    this.lerpOld.y = this.y;
   }
 
   private _eUp(): void {
@@ -137,6 +163,12 @@ export class MousePointer {
   private _eMove(e: any = {}): void {
     this.old.x = this.x;
     this.old.y = this.y;
+
+    // record last point when isDown
+    if (this.isDown) {
+      this.last.x = this.x;
+      this.last.y = this.y;
+    }
 
     this.x = e.clientX;
     this.y = e.clientY;
@@ -164,6 +196,17 @@ export class MousePointer {
       this.moveDist.x += (0 - this.moveDist.x) * 0.25;
       this.moveDist.y += (0 - this.moveDist.y) * 0.25;
     }
+
+    /////////
+    const offsetX = (this.last.x - this.lerpOld.x) * 0.1;
+    const offsetY = (this.last.y - this.lerpOld.y) * 0.1;
+
+    this.lerpOld.x += offsetX;
+    this.lerpOld.y += offsetY;
+
+    this.velocityX = offsetX;
+    this.velocityY = offsetY;
+    /////////
 
     this.normal.x = Util.instance.map(this.x, -1, 1, 0, window.innerWidth);
     this.normal.y = Util.instance.map(this.y, -1, 1, 0, window.innerHeight);

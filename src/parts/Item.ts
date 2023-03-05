@@ -5,6 +5,7 @@ import { MyObject3D } from "../webgl/myObject3D";
 import { Update } from "../libs/update";
 import { Image } from "./Images";
 import { Func } from "../core/func";
+import { MousePointer } from "../core/mousePointer";
 
 // normal plane
 const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
@@ -37,10 +38,12 @@ const noises = [
 export class Item extends MyObject3D {
   mesh: THREE.Mesh;
   private _element: Image;
+  private _mousePointer: MousePointer;
   constructor(element: Image) {
     super();
 
     this._element = element;
+    this._mousePointer = MousePointer.instance;
 
     const material = new THREE.ShaderMaterial({
       vertexShader: vertex,
@@ -67,6 +70,12 @@ export class Item extends MyObject3D {
         u_isPC: {
           value: Func.instance.sw() > 800,
         },
+        u_dragVelocityX: {
+          value: this._mousePointer.velocityX,
+        },
+        u_dragVelocityY: {
+          value: this._mousePointer.velocityY,
+        },
       },
       transparent: true,
       opacity: 0.1,
@@ -90,6 +99,9 @@ export class Item extends MyObject3D {
       this._element.position.y,
       0
     );
+    const material = this.mesh.material as THREE.ShaderMaterial;
+    material.uniforms.u_dragVelocityX.value = this._mousePointer.velocityX;
+    material.uniforms.u_dragVelocityY.value = this._mousePointer.velocityY;
   }
 
   protected _resize(): void {

@@ -81,6 +81,16 @@ export class Util {
     return Math.min(max, Math.max(val, min));
   }
 
+  // linear interpolation
+  // -----------------------------------
+  // @start : starting state
+  // @end : end state
+  // @amt : amount to interpolate between 0.0 -> 1.0
+  // -----------------------------------
+  lerp(start: number, end: number, amt: number) {
+    return (1 - amt) * start + amt * end;
+  }
+
   // 値のマッピング
   // -----------------------------------
   // @num     : マッピングする値

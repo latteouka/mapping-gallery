@@ -1,4 +1,5 @@
 import { Func } from "../core/func";
+import { MousePointer } from "../core/mousePointer";
 import { lenis } from "./SmoothScroll";
 
 export class Images {
@@ -27,6 +28,13 @@ export class Images {
     });
   }
 
+  // call from contents update
+  updateDrag() {
+    for (let i = 0; i < this.images.length; i++) {
+      this.images[i].updateDrag();
+    }
+  }
+
   resize() {
     if (Func.instance.sw() < 800) {
       this.resize_sp();
@@ -51,6 +59,8 @@ export class Images {
     for (let i = 0; i < this.images.length; i++) {
       this.images[i].resize();
     }
+
+    this.updatePosition();
   }
 
   resize_sp() {
@@ -69,6 +79,8 @@ export class Images {
     for (let i = 0; i < this.images.length; i++) {
       this.images[i].resize();
     }
+
+    this.updatePosition();
   }
 
   // move images with scroll velocity
@@ -88,15 +100,20 @@ export class Images {
 
 export class Image {
   private _element: HTMLElement;
+  private _translateX: number;
   private _translateY: number;
   width: number;
   height: number;
   color: string;
   img: string;
   position: { x: number; y: number } = { x: 0, y: 0 };
+  dragTarget: { x: number; y: number } = { x: 0, y: 0 };
+  private _mousePointer: MousePointer;
 
   constructor(image: HTMLElement) {
     this._element = image;
+    this._mousePointer = MousePointer.instance;
+    this._translateX = 0;
     this._translateY = 0;
     this.width = this._element.getBoundingClientRect().width;
     this.height = this._element.getBoundingClientRect().height;
@@ -123,16 +140,29 @@ export class Image {
   update_pc(vel: number) {
     // move item
     this._translateY += -vel;
+    // top
     if (
       this._element.getBoundingClientRect().y <
       -Func.instance.sw() * 0.234375
     ) {
       this._translateY += Func.instance.sw() * 0.234375 * 3 + 180;
     }
+    // left
+    if (
+      this._element.getBoundingClientRect().x <
+      -Func.instance.sw() * 0.171875 * 1.5
+    ) {
+      this._translateX += Func.instance.sw() * 0.171875 * 6 + 360;
+    }
+    // right
+    if (this._element.getBoundingClientRect().x > Func.instance.sw()) {
+      this._translateX -= Func.instance.sw() * 0.171875 * 6 + 360;
+    }
+    // bottom
     if (this._element.getBoundingClientRect().y > Func.instance.sh()) {
       this._translateY -= Func.instance.sw() * 0.234375 * 3 + 180;
     }
-    this._element.style.transform = `translate(0, ${this._translateY}px)`;
+    this._element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
 
     this.updateProperties();
   }
@@ -154,6 +184,15 @@ export class Image {
     this.updateProperties();
   }
 
+  updateDrag() {
+    this._translateX += this._mousePointer.velocityX;
+    this._translateY += this._mousePointer.velocityY;
+
+    this._element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
+    this.update(0);
+    this.updateProperties();
+  }
+
   updateProperties() {
     this.width = this._element.getBoundingClientRect().width;
     this.height = this._element.getBoundingClientRect().height;
@@ -171,8 +210,14 @@ export class Image {
   }
 
   resize() {
-    this._element.style.transform = `translate(0, 0)`;
-    this._translateY = 0;
+    this.reset();
+    this.update(0);
     this.updateProperties();
+  }
+
+  reset() {
+    this._element.style.transform = `translate(0px, 0px)`;
+    this._translateX = 0;
+    this._translateY = 0;
   }
 }
