@@ -31,7 +31,7 @@ void main(){
   if (u_isPC) {
     intensity = 50.0;
     rotateFactor = 10.0;
-    dragIntensity = 30.0;
+    dragIntensity = 50.0;
   } else {
     intensity = 120.0;
     rotateFactor = 5.0;
@@ -54,18 +54,18 @@ void main(){
   }
 
   if(u_dragVelocityX > 0.0){
-    z += cos((uvCurve.x) * PI ) * u_dragVelocityX * -dragIntensity;
+    z += cos((uvCurve.x) * PI) * u_dragVelocityX * -dragIntensity;
   }
   else {
     z += -cos((uvCurve.x) * PI) * u_dragVelocityX * dragIntensity;
   }
 
   if(u_dragVelocityY > 0.0){
-    z += -cos((uvCurve.y) * PI ) * u_dragVelocityY * dragIntensity;
-    z += cos((coord.y) * PI ) * u_dragVelocityY * -dragIntensity;
+    // z += -cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
+    z += cos((coord.y) * PI) * u_dragVelocityY * -dragIntensity;
   }
   else {
-    z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
+    // z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
     z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
   }
 
