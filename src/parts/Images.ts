@@ -170,16 +170,30 @@ export class Image {
   update_sp(vel: number) {
     // move item
     this._translateY += -vel;
+
+    // top
     if (
       this._element.getBoundingClientRect().y <
       -Func.instance.sw() * 0.46933333 * 1.5
     ) {
       this._translateY += Func.instance.sw() * 0.704 * 6 + 156;
     }
+    // left
+    if (
+      this._element.getBoundingClientRect().x <
+      -Func.instance.sw() * 0.46933333 * 1.3
+    ) {
+      this._translateX += Func.instance.sw() * 0.46933333 * 4 + 104;
+    }
+    // right
+    if (this._element.getBoundingClientRect().x > Func.instance.sw()) {
+      this._translateX -= Func.instance.sw() * 0.46933333 * 4 + 104;
+    }
+    // bottom
     if (this._element.getBoundingClientRect().y > Func.instance.sh() * 1.4) {
       this._translateY -= Func.instance.sw() * 0.704 * 6 + 156;
     }
-    this._element.style.transform = `translate(0, ${this._translateY}px)`;
+    this._element.style.transform = `translate(${this._translateX}px , ${this._translateY}px)`;
 
     this.updateProperties();
   }
