@@ -31,8 +31,8 @@ void main(){
     intensity = 50.0;
     rotateFactor = 10.0;
   } else {
-    intensity = 80.0;
-    rotateFactor = 10.0;
+    intensity = 120.0;
+    rotateFactor = 5.0;
   }
 
   // slightly rotate the item
