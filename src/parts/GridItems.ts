@@ -1,5 +1,7 @@
 import { Func } from "../core/func";
 import { MousePointer } from "../core/mousePointer";
+import { Resize } from "../libs/resize";
+import { Update } from "../libs/update";
 import { lenis } from "./SmoothScroll";
 
 export class GridItems {
@@ -7,47 +9,37 @@ export class GridItems {
   images: Image[] = [];
   offsetX: number = 0;
   offsetY: number = 0;
+  private _layoutHandler: any;
 
   constructor() {
     this.init();
+
+    this._layoutHandler = this._resize.bind(this);
+    Resize.instance.add(this._layoutHandler);
   }
 
   init() {
-    // do resize translate first to get correct positions when init Image
-    this.resize();
+    // do resize translate first to get correct positions before init Image
+    this._resize();
 
+    // generate all grid(Image)
     const allImages = document.querySelectorAll(this.targetName);
     for (let i = 0; i < allImages.length; i++) {
       const image = allImages[i] as HTMLElement;
       const temp = new Image(image);
       this.images.push(temp);
     }
-
-    lenis.on("scroll", ({ velocity }: any) => {
-      this.updateImages(velocity);
-    });
   }
 
-  // call from contents update
-  updateDrag() {
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].updateDrag();
-    }
-  }
-
-  resize() {
+  private _resize() {
     if (Func.instance.sw() < 800) {
       this.resize_sp();
     } else {
       this.resize_pc();
     }
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].resize();
-    }
-    this.updateImages(0);
   }
 
-  resize_pc() {
+  private resize_pc() {
     const gallery = document.querySelector(".gallery")! as HTMLElement;
 
     // responsive gallery
@@ -60,7 +52,7 @@ export class GridItems {
     gallery.style.transform = `translate(-${this.offsetX}px, ${this.offsetY}px)`;
   }
 
-  resize_sp() {
+  private resize_sp() {
     const gallery = document.querySelector(".gallery")! as HTMLElement;
 
     // responsive gallery
@@ -72,142 +64,147 @@ export class GridItems {
     this.offsetY = (Func.instance.sh() - galleryHeight) / 2;
     gallery.style.transform = `translate(-${this.offsetX}px, ${this.offsetY}px)`;
   }
-
-  // move images with scroll velocity
-  updateImages(vel: number) {
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].update(vel);
-    }
-  }
 }
 
 export class Grid {
-  private _element: HTMLElement;
+  public element: HTMLElement;
   private _translateX: number;
   private _translateY: number;
   width: number;
   height: number;
   position: { x: number; y: number } = { x: 0, y: 0 };
   dragTarget: { x: number; y: number } = { x: 0, y: 0 };
-  private _mousePointer: MousePointer;
   type: string = "default";
 
+  private _dragHandler: any;
+  private _layoutHandler: any;
+
   constructor(image: HTMLElement) {
-    this._element = image;
-    this._mousePointer = MousePointer.instance;
+    this.element = image;
     this._translateX = 0;
     this._translateY = 0;
-    this.width = this._element.getBoundingClientRect().width;
-    this.height = this._element.getBoundingClientRect().height;
+    this.width = this.element.getBoundingClientRect().width;
+    this.height = this.element.getBoundingClientRect().height;
 
-    this.updateProperties();
+    // add drag to update loop
+    // because we need drag animation to update even when user has released touch
+    this._dragHandler = this._updateDrag.bind(this);
+    Update.instance.add(this._dragHandler);
+    this._layoutHandler = this._resize.bind(this);
+    Resize.instance.add(this._layoutHandler);
+
+    lenis.on("scroll", ({ velocity }: any) => {
+      this._translate(velocity);
+    });
   }
 
-  update(vel: number) {
+  // run on scroll
+  private _translate(vel: number) {
     if (Func.instance.sw() < 800) {
       this.update_sp(vel);
     } else {
       this.update_pc(vel);
     }
-    this.updateProperties();
+    this._updateProperties();
   }
 
-  update_pc(vel: number) {
+  // 6 * 4
+  private update_pc(vel: number) {
     // move item
     this._translateY += -vel;
     // top
     if (
-      this._element.getBoundingClientRect().y <
+      this.element.getBoundingClientRect().y <
       -Func.instance.sw() * 0.234375 * 1.5
     ) {
       this._translateY += Func.instance.sw() * 0.234375 * 4 + 240;
     }
     // left
     if (
-      this._element.getBoundingClientRect().x <
+      this.element.getBoundingClientRect().x <
       -Func.instance.sw() * 0.171875 * 1.5
     ) {
       this._translateX += Func.instance.sw() * 0.171875 * 6 + 360;
     }
     // right
-    if (this._element.getBoundingClientRect().x > Func.instance.sw()) {
+    if (this.element.getBoundingClientRect().x > Func.instance.sw()) {
       this._translateX -= Func.instance.sw() * 0.171875 * 6 + 360;
     }
     // bottom
     if (
-      this._element.getBoundingClientRect().y >
+      this.element.getBoundingClientRect().y >
       Func.instance.sh() + Func.instance.sw() * 0.234375
     ) {
       this._translateY -= Func.instance.sw() * 0.234375 * 4 + 240;
     }
-    this._element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
+    this.element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
   }
 
-  update_sp(vel: number) {
+  // 4 * 6
+  private update_sp(vel: number) {
     // move item
     this._translateY += -vel;
 
     // top
     if (
-      this._element.getBoundingClientRect().y <
+      this.element.getBoundingClientRect().y <
       -Func.instance.sw() * 0.704 * 2
     ) {
       this._translateY += Func.instance.sw() * 0.704 * 6 + 156;
     }
     // left
     if (
-      this._element.getBoundingClientRect().x <
+      this.element.getBoundingClientRect().x <
       -Func.instance.sw() * 0.46933333 * 2
     ) {
       this._translateX += Func.instance.sw() * 0.46933333 * 4 + 104;
     }
     // right
-    if (this._element.getBoundingClientRect().x > Func.instance.sw() * 1.3) {
+    if (this.element.getBoundingClientRect().x > Func.instance.sw() * 1.3) {
       this._translateX -= Func.instance.sw() * 0.46933333 * 4 + 104;
     }
     // bottom
     if (
-      this._element.getBoundingClientRect().y >
+      this.element.getBoundingClientRect().y >
       Func.instance.sh() + Func.instance.sw() * 0.704
     ) {
       this._translateY -= Func.instance.sw() * 0.704 * 6 + 156;
     }
-    this._element.style.transform = `translate(${this._translateX}px , ${this._translateY}px)`;
+    this.element.style.transform = `translate(${this._translateX}px , ${this._translateY}px)`;
   }
 
-  updateDrag() {
-    this._translateX += this._mousePointer.velocityX * 1.5;
-    this._translateY += this._mousePointer.velocityY * 1.5;
+  private _updateDrag() {
+    // keep moving after touchleave
+    this._translateX += MousePointer.instance.velocityX * 2;
+    this._translateY += MousePointer.instance.velocityY * 2;
 
-    this._element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
-    this.update(0);
-    this.updateProperties();
+    this.element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
+    this._translate(0);
   }
 
-  updateProperties() {
-    this.width = this._element.getBoundingClientRect().width;
-    this.height = this._element.getBoundingClientRect().height;
+  // update everything for threejs item's reference
+  private _updateProperties() {
+    this.width = this.element.getBoundingClientRect().width;
+    this.height = this.element.getBoundingClientRect().height;
     this.position = {
       x:
         -window.innerWidth / 2 +
         this.width / 2 +
-        this._element.getBoundingClientRect().x,
+        this.element.getBoundingClientRect().x,
 
       y:
         window.innerHeight / 2 -
         this.height / 2 -
-        this._element.getBoundingClientRect().y,
+        this.element.getBoundingClientRect().y,
     };
   }
 
-  resize() {
-    this.reset();
-    this.update(0);
-    this.updateProperties();
+  private _resize() {
+    this._reset();
   }
 
-  reset() {
-    this._element.style.transform = `translate(0px, 0px)`;
+  private _reset() {
+    this.element.style.transform = `translate(0px, 0px)`;
     this._translateX = 0;
     this._translateY = 0;
   }

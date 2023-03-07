@@ -5,6 +5,9 @@ import { Util } from "../libs/util";
 export class MousePointer {
   private static _instance: MousePointer;
 
+  // callbacks for move
+  private _list: Array<Function> = [];
+
   public x: number = window.innerWidth * 0.5;
   public y: number = window.innerHeight * 0.5;
   public old: Point = new Point();
@@ -16,7 +19,7 @@ export class MousePointer {
   public moveDist: Point = new Point();
   public dist: number = 0;
   public isDown: boolean = false;
-  public usePreventDefault: boolean = true;
+  public isDragging: boolean = false;
   public velocityX: number = 0;
   public velocityY: number = 0;
 
@@ -25,6 +28,7 @@ export class MousePointer {
   private _updateHandler: any;
 
   constructor() {
+    // const tg = document.querySelector(".l-canvas") || window;
     window.addEventListener("pointerdown", (e: any = {}) => {
       this._eDown(e);
     });
@@ -97,6 +101,7 @@ export class MousePointer {
   // }
   //
   private _eDown(e: any = {}): void {
+    e.stopPropagation();
     this.isDown = true;
     this._eMove(e);
 
@@ -115,6 +120,8 @@ export class MousePointer {
   }
 
   private _eMove(e: any = {}): void {
+    this.dist = 0;
+    e.stopPropagation();
     this.old.x = this.x;
     this.old.y = this.y;
 
@@ -130,6 +137,15 @@ export class MousePointer {
     const dx = this.old.x - this.x;
     const dy = this.old.y - this.y;
     this.dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (this.isDown && this.dist > 0) {
+      this.isDragging = true;
+    } else {
+      this.isDragging = false;
+    }
+
+    // run callbacks
+    this._call();
   }
 
   // private _getTouchPoint(e: TouchEvent): Point {
@@ -152,8 +168,8 @@ export class MousePointer {
     }
 
     /////////
-    const offsetX = (this.last.x - this.lerpOld.x) * 0.05;
-    const offsetY = (this.last.y - this.lerpOld.y) * 0.05;
+    const offsetX = (this.last.x - this.lerpOld.x) * 0.1;
+    const offsetY = (this.last.y - this.lerpOld.y) * 0.1;
 
     this.lerpOld.x += offsetX;
     this.lerpOld.y += offsetY;
@@ -169,4 +185,24 @@ export class MousePointer {
     this.easeNormal.x += (this.normal.x - this.easeNormal.x) * ease;
     this.easeNormal.y += (this.normal.y - this.easeNormal.y) * ease;
   }
+
+  public add(f: Function) {
+    this._list.push(f);
+  }
+
+  public remove(f: Function) {
+    const arr: Array<Function> = [];
+    this._list.forEach((val) => {
+      if (val != f) {
+        arr.push(val);
+      }
+    });
+    this._list = arr;
+  }
+
+  private _call = () => {
+    for (var item of this._list) {
+      if (item != null) item();
+    }
+  };
 }

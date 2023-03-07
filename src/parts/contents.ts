@@ -1,4 +1,5 @@
 import { MyDisplay } from "../core/myDisplay";
+import { Param } from "../core/param";
 import { GridItems } from "./GridItems";
 import { Visual } from "./visual";
 
@@ -19,15 +20,15 @@ export class Contents extends MyDisplay {
       transparent: true,
       images: this._images.images,
     });
+
+    new Param();
   }
 
   protected _update(): void {
     super._update();
-    this._images.updateDrag();
   }
 
   protected _resize(): void {
     super._resize();
-    this._images.resize();
   }
 }

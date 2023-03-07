@@ -31,7 +31,7 @@ void main(){
   if (u_isPC) {
     intensity = 50.0;
     rotateFactor = 10.0;
-    dragIntensity = 100.0;
+    dragIntensity = 200.0;
   } else {
     intensity = 120.0;
     rotateFactor = 0.5;

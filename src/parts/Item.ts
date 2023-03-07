@@ -1,13 +1,12 @@
 import * as THREE from "three";
 import vertex from "../glsl/image/image.vert";
 import fragment from "../glsl/image/image.frag";
-import item1Vertex from "../glsl/item1/item1.vert";
-import item1Fragment from "../glsl/item1/item1.frag";
 import { MyObject3D } from "../webgl/myObject3D";
 import { Update } from "../libs/update";
 import { Grid, Image } from "./GridItems";
 import { Func } from "../core/func";
 import { MousePointer } from "../core/mousePointer";
+import { lenis } from "./SmoothScroll";
 
 // normal plane
 const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
@@ -38,34 +37,28 @@ const noises = [
 ];
 
 export class Item extends MyObject3D {
-  protected mesh: THREE.Mesh;
   protected _element: Grid | Image;
   protected _mousePointer: MousePointer;
   constructor(element: Grid) {
     super();
     this._element = element;
     this._mousePointer = MousePointer.instance;
-
-    this.mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
   }
 
   protected _update(): void {
     super._update();
+    // prevent click when drag
+    if (this._mousePointer.isDragging) {
+      this._element.element.classList.add("disable");
+    } else {
+      this._element.element.classList.remove("disable");
+    }
   }
 
   protected _resize(): void {
     super._resize();
 
-    this.mesh.position.set(
-      this._element.position.x,
-      this._element.position.y,
-      0
-    );
-  }
-
-  updateScroll(vel: number): void {
-    const material = this.mesh.material as THREE.ShaderMaterial;
-    material.uniforms.u_scrollVelocity.value = vel;
+    this.position.set(this._element.position.x, this._element.position.y, 0);
   }
 }
 
@@ -114,129 +107,29 @@ export class ImageItem extends Item {
     });
 
     this.mesh = new THREE.Mesh(geometry, material);
-    this.mesh.scale.set(this._element.width, this._element.height, 1);
-    this.mesh.position.set(
-      this._element.position.x,
-      this._element.position.y,
-      0
-    );
+
+    this.add(this.mesh);
+    this.scale.set(this._element.width, this._element.height, 1);
+    this.position.set(this._element.position.x, this._element.position.y, 0);
+
+    this._update();
+    this._resize();
   }
   protected _update(): void {
     super._update();
-    this.mesh.scale.set(this._element.width, this._element.height, 1);
-    this.mesh.position.set(
-      this._element.position.x,
-      this._element.position.y,
-      0
-    );
+    this.scale.set(this._element.width, this._element.height, 1);
+    this.position.set(this._element.position.x, this._element.position.y, 0);
+
     const material = this.mesh.material as THREE.ShaderMaterial;
     material.uniforms.u_dragVelocityX.value = this._mousePointer.velocityX;
     material.uniforms.u_dragVelocityY.value = this._mousePointer.velocityY;
+    material.uniforms.u_scrollVelocity.value = lenis.velocity;
   }
 
   protected _resize(): void {
     super._resize();
 
-    this.mesh.scale.set(this._element.width, this._element.height, 1);
-    const material = this.mesh.material as THREE.ShaderMaterial;
-    material.uniforms.u_isPC.value = Func.instance.sw() > 800;
-  }
-}
-
-const sphere = new THREE.SphereGeometry(1, 32, 64);
-
-export class ThreeItem extends Item {
-  mesh: THREE.Mesh;
-  protected _element: Image;
-
-  constructor(element: Image) {
-    super(element);
-    this._element = element;
-
-    const material = new THREE.ShaderMaterial({
-      vertexShader: item1Vertex,
-      fragmentShader: item1Fragment,
-      uniforms: {
-        u_time: { value: Update.instance.cnt },
-        u_scrollVelocity: { value: 0 },
-        u_noiseTexture: {
-          // value: new THREE.TextureLoader().load("/img/cloudnoise.webp"),
-          value: new THREE.TextureLoader().load(noises[2]),
-        },
-        u_resolution: {
-          value: new THREE.Vector2(Func.instance.sw(), Func.instance.sh()),
-        },
-        u_isPC: {
-          value: Func.instance.sw() > 800,
-        },
-        u_dragVelocityX: {
-          value: this._mousePointer.velocityX,
-        },
-        u_dragVelocityY: {
-          value: this._mousePointer.velocityY,
-        },
-        u_color: {
-          value: new THREE.Color(0x51b1f5),
-        },
-        u_lightColor: {
-          value: new THREE.Color(0xffffff),
-        },
-        u_lightPos: {
-          value: new THREE.Vector3(
-            this._mousePointer.x,
-            this._mousePointer.y,
-            400
-          ),
-        },
-      },
-      transparent: true,
-      opacity: 0.1,
-    });
-
-    this.mesh = new THREE.Mesh(sphere, material);
-    this.mesh.scale.set(
-      this._element.width / 2,
-      this._element.width / 2,
-      this._element.width / 2
-    );
-    this.mesh.position.set(
-      this._element.position.x,
-      this._element.position.y,
-      -10
-    );
-  }
-  protected _update(): void {
-    super._update();
-
-    this.mesh.scale.set(
-      this._element.width / 3,
-      this._element.width / 3,
-      this._element.width / 3
-    );
-    this.mesh.position.set(
-      this._element.position.x,
-      this._element.position.y,
-      -10
-    );
-
-    const material = this.mesh.material as THREE.ShaderMaterial;
-    material.uniforms.u_dragVelocityX.value = this._mousePointer.velocityX;
-    material.uniforms.u_dragVelocityY.value = this._mousePointer.velocityY;
-    material.uniforms.u_lightPos.value.set(
-      this._mousePointer.normal.x * Func.instance.sw(),
-      -this._mousePointer.normal.y * Func.instance.sh(),
-      400
-    );
-  }
-
-  protected _resize(): void {
-    super._resize();
-
-    this.mesh.scale.set(
-      this._element.width / 2,
-      this._element.width / 2,
-      this._element.width / 2
-    );
+    this.scale.set(this._element.width, this._element.height, 1);
     const material = this.mesh.material as THREE.ShaderMaterial;
     material.uniforms.u_isPC.value = Func.instance.sw() > 800;
   }

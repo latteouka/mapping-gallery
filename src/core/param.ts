@@ -8,7 +8,7 @@ export class Param {
   private static _instance: Param;
 
   public fps: number = FPS.MIDDLE;
-  public debug: HTMLElement = document.querySelector(".l-debug") as HTMLElement;
+  public debug: HTMLElement = document.querySelector(".lil-gui") as HTMLElement;
   public scrollRate: number = 0;
 
   private _dat: any;
@@ -16,6 +16,7 @@ export class Param {
 
   public main = {
     bg: { value: 0x000000, type: "color" },
+    progress: { value: 0.5, min: 0, max: 1 },
   };
 
   constructor() {
@@ -64,7 +65,7 @@ export class Param {
           if (val.list != undefined) {
             folder.add(val, "value", val.list).name(key);
           } else {
-            folder.add(val, "value", val.min, val.max).name(key);
+            folder.add(val, "value", val.min, val.max, val.step).name(key);
           }
         }
       }

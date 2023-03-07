@@ -1,4 +1,4 @@
-#include ../snoise2d.glsl
+#include ../../../glsl/snoise2d.glsl
 uniform vec3 u_color;
 uniform vec3 u_lightColor;
 
