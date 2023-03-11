@@ -58,8 +58,8 @@ export class GridItems {
     // responsive gallery
     const galleryHeight = gallery.clientHeight;
     this.offsetX =
-      Func.instance.sw() * 0.46933333 -
-      (Func.instance.sw() - Func.instance.sw() * 0.46933333 * 2 - 78) / 2 +
+      Func.instance.sw() * 0.42 -
+      (Func.instance.sw() - Func.instance.sw() * 0.42 * 2 - 78) / 2 +
       13;
     this.offsetY = (Func.instance.sh() - galleryHeight) / 2;
     gallery.style.transform = `translate(-${this.offsetX}px, ${this.offsetY}px)`;
@@ -73,7 +73,6 @@ export class Grid {
   width: number;
   height: number;
   position: { x: number; y: number } = { x: 0, y: 0 };
-  dragTarget: { x: number; y: number } = { x: 0, y: 0 };
   type: string = "default";
 
   private _dragHandler: any;
@@ -112,30 +111,23 @@ export class Grid {
   private update_pc(vel: number) {
     // move item
     this._translateY += -vel;
+    const width = Func.instance.sw();
+    const height = Func.instance.sh();
     // top
-    if (
-      this.element.getBoundingClientRect().y <
-      -Func.instance.sw() * 0.234375 * 1.5
-    ) {
-      this._translateY += Func.instance.sw() * 0.234375 * 4 + 240;
+    if (this.element.getBoundingClientRect().y < -width * 0.234375 * 1.2) {
+      this._translateY += width * 0.234375 * 4 + 240;
     }
     // left
-    if (
-      this.element.getBoundingClientRect().x <
-      -Func.instance.sw() * 0.171875 * 1.5
-    ) {
-      this._translateX += Func.instance.sw() * 0.171875 * 6 + 360;
+    if (this.element.getBoundingClientRect().x < -width * 0.171875 * 1.6) {
+      this._translateX += width * 0.171875 * 6 + 360;
     }
     // right
-    if (this.element.getBoundingClientRect().x > Func.instance.sw()) {
-      this._translateX -= Func.instance.sw() * 0.171875 * 6 + 360;
+    if (this.element.getBoundingClientRect().x > width) {
+      this._translateX -= width * 0.171875 * 6 + 360;
     }
     // bottom
-    if (
-      this.element.getBoundingClientRect().y >
-      Func.instance.sh() + Func.instance.sw() * 0.234375
-    ) {
-      this._translateY -= Func.instance.sw() * 0.234375 * 4 + 240;
+    if (this.element.getBoundingClientRect().y > height * 1.05) {
+      this._translateY -= width * 0.234375 * 4 + 240;
     }
     this.element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
   }
@@ -144,31 +136,24 @@ export class Grid {
   private update_sp(vel: number) {
     // move item
     this._translateY += -vel;
+    const width = Func.instance.sw();
+    const height = Func.instance.sh();
 
     // top
-    if (
-      this.element.getBoundingClientRect().y <
-      -Func.instance.sw() * 0.704 * 2
-    ) {
-      this._translateY += Func.instance.sw() * 0.704 * 6 + 156;
+    if (this.element.getBoundingClientRect().y < -width * 0.63 * 2) {
+      this._translateY += width * 0.63 * 6 + 156;
     }
     // left
-    if (
-      this.element.getBoundingClientRect().x <
-      -Func.instance.sw() * 0.46933333 * 2
-    ) {
-      this._translateX += Func.instance.sw() * 0.46933333 * 4 + 104;
+    if (this.element.getBoundingClientRect().x < -width * 0.42 * 2) {
+      this._translateX += width * 0.42 * 4 + 104;
     }
     // right
-    if (this.element.getBoundingClientRect().x > Func.instance.sw() * 1.3) {
-      this._translateX -= Func.instance.sw() * 0.46933333 * 4 + 104;
+    if (this.element.getBoundingClientRect().x > width * 1.3) {
+      this._translateX -= width * 0.42 * 4 + 104;
     }
     // bottom
-    if (
-      this.element.getBoundingClientRect().y >
-      Func.instance.sh() + Func.instance.sw() * 0.704
-    ) {
-      this._translateY -= Func.instance.sw() * 0.704 * 6 + 156;
+    if (this.element.getBoundingClientRect().y > height + width * 0.63) {
+      this._translateY -= width * 0.63 * 6 + 156;
     }
     this.element.style.transform = `translate(${this._translateX}px , ${this._translateY}px)`;
   }
@@ -177,15 +162,11 @@ export class Grid {
     // keep moving after touchleave
     this._translateX += MousePointer.instance.velocityX * 2;
     this._translateY += MousePointer.instance.velocityY * 2;
-
-    this.element.style.transform = `translate(${this._translateX}px, ${this._translateY}px)`;
     this._translate(0);
   }
 
   // update everything for threejs item's reference
   private _updateProperties() {
-    this.width = this.element.getBoundingClientRect().width;
-    this.height = this.element.getBoundingClientRect().height;
     this.position = {
       x:
         -window.innerWidth / 2 +
@@ -201,6 +182,8 @@ export class Grid {
 
   private _resize() {
     this._reset();
+    this.width = this.element.getBoundingClientRect().width;
+    this.height = this.element.getBoundingClientRect().height;
   }
 
   private _reset() {

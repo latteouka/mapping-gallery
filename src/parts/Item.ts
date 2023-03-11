@@ -10,6 +10,7 @@ import { lenis } from "./SmoothScroll";
 
 // normal plane
 const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
+const circle = new THREE.CircleGeometry(1, 64);
 
 // create an plane with border radius
 const roundedRectShape = new THREE.Shape();
@@ -23,7 +24,7 @@ const roundedRectShape = new THREE.Shape();
   ctx.quadraticCurveTo(x + width, y, x + width - radius, y);
   ctx.lineTo(x + radius, y);
   ctx.quadraticCurveTo(x, y, x, y + radius);
-})(roundedRectShape, 0, 0, 1, 1, 0.05);
+})(roundedRectShape, 0, 0, 1, 1, 0.07);
 const geometry2 = new THREE.ShapeGeometry(roundedRectShape);
 // must do this
 geometry2.center();
@@ -48,7 +49,7 @@ export class Item extends MyObject3D {
   protected _update(): void {
     super._update();
     // prevent click when drag
-    if (this._mousePointer.isDragging) {
+    if (this._mousePointer.isDragging && Func.instance.sw() > 800) {
       this._element.element.classList.add("disable");
     } else {
       this._element.element.classList.remove("disable");
@@ -124,6 +125,10 @@ export class ImageItem extends Item {
     material.uniforms.u_dragVelocityX.value = this._mousePointer.velocityX;
     material.uniforms.u_dragVelocityY.value = this._mousePointer.velocityY;
     material.uniforms.u_scrollVelocity.value = lenis.velocity;
+    material.uniforms.u_meshSize.value.set(
+      this._element.width,
+      this._element.height
+    );
   }
 
   protected _resize(): void {

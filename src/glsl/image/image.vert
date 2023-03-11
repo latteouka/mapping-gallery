@@ -19,10 +19,10 @@ void main(){
   vec3 pos = position;
   vec4 mvPosition =  modelViewMatrix * vec4(pos, 1.0);
 
+  // this is for full screen distort
   vec2 coord = mvPosition.xy / u_resolution;
-
+  // this is for element distort
   vec2 uvCurve = uv;
-
 
   float intensity = 0.0;
   float rotateFactor = 0.0;
@@ -38,14 +38,14 @@ void main(){
     dragIntensity = 450.0;
   }
 
-  // slightly rotate the item
   float x = 0.0;
-  // float y = cos((uvCurve.x) * PI) * u_scrollVelocity / 50.0;
   float y = 0.0;
   float z = 0.0;
 
-  // z += cos((coord.y) * PI) * 100000.0;
 
+  // -----------
+  // full screen coord based distort(scroll)
+  // -----------
   if(u_scrollVelocity > 0.0){
     z += -cos((coord.y) * PI) * u_scrollVelocity * -intensity;
   }
@@ -53,8 +53,12 @@ void main(){
     z += cos((coord.y) * PI) * u_scrollVelocity * intensity;
   }
 
+  // slightly rotateって感じ
   x += sin((coord.y)) * u_scrollVelocity / rotateFactor;
 
+  // -----------
+  // full screen coord based distort(drag x and y)
+  // -----------
   if(u_dragVelocityX > 0.0){
     x += -sin((coord.y)) * u_dragVelocityX / -rotateFactor;
     z += cos((coord.x) * PI) * u_dragVelocityX * -dragIntensity;
@@ -64,24 +68,21 @@ void main(){
     z += cos((coord.x) * PI) * u_dragVelocityX * dragIntensity;
   }
 
-  // x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
 
   if(u_dragVelocityY > 0.0){
-    // z += -cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
     z += cos((coord.y) * PI) * u_dragVelocityY * -dragIntensity;
   }
   else {
-    // z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
     if(u_isPC) {
       z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
     } else {
+      // only ball effect on sp
       z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
     }
   }
 
   vec3 curve = vec3(x, y, z);
   pos += curve * 0.03;
-
   pos /= 0.98;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);

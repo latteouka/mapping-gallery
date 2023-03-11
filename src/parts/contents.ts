@@ -1,6 +1,7 @@
 import { MyDisplay } from "../core/myDisplay";
 import { Param } from "../core/param";
 import { GridItems } from "./GridItems";
+import { lenis } from "./SmoothScroll";
 import { Visual } from "./visual";
 
 // -----------------------------------------
@@ -22,6 +23,13 @@ export class Contents extends MyDisplay {
     });
 
     new Param();
+
+    // setTimeout(() => {
+    //   lenis.scrollTo(3000, {
+    //     easing: (x) =>
+    //       x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+    //   });
+    // }, 3000);
   }
 
   protected _update(): void {

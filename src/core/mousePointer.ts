@@ -29,6 +29,12 @@ export class MousePointer {
 
   constructor() {
     // const tg = document.querySelector(".l-canvas") || window;
+    // this.setListeners();
+    this._updateHandler = this._update.bind(this);
+    Update.instance.add(this._updateHandler);
+  }
+
+  public setListeners() {
     window.addEventListener("pointerdown", (e: any = {}) => {
       this._eDown(e);
     });
@@ -38,8 +44,17 @@ export class MousePointer {
     window.addEventListener("pointermove", (e: any = {}) => {
       this._eMove(e);
     });
-    this._updateHandler = this._update.bind(this);
-    Update.instance.add(this._updateHandler);
+  }
+  public removeListeners() {
+    window.removeEventListener("pointerdown", (e: any = {}) => {
+      this._eDown(e);
+    });
+    window.removeEventListener("pointerup", () => {
+      this._eUp();
+    });
+    window.removeEventListener("pointermove", (e: any = {}) => {
+      this._eMove(e);
+    });
   }
 
   public static get instance(): MousePointer {
@@ -101,6 +116,7 @@ export class MousePointer {
   // }
   //
   private _eDown(e: any = {}): void {
+    // e.preventDefault();
     e.stopPropagation();
     this.isDown = true;
     this._eMove(e);
@@ -121,6 +137,7 @@ export class MousePointer {
 
   private _eMove(e: any = {}): void {
     this.dist = 0;
+    // e.preventDefault();
     e.stopPropagation();
     this.old.x = this.x;
     this.old.y = this.y;

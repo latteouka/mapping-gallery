@@ -13,7 +13,7 @@ body {
   // background-image: linear-gradient(rgba(3, 192, 60, 0.3) 1px, transparent 1px),
   //   linear-gradient(90deg, rgba(3, 192, 60, 0.3) 1px, transparent 1px);
   // background-size: 1em 1em;
-  overflow: hidden;
+  background-color: #000;
 }
 
 ul {
@@ -27,10 +27,7 @@ ul {
   opacity: 1;
   z-index: 2;
   pointer-events: none;
-}
-
-.lil-gui {
-  z-index: 5;
+  transform: scale(1.07) rotate(-2deg);
 }
 
 .gallery-wrapper {
@@ -56,11 +53,11 @@ ul {
   }
 
   @include sp {
-    grid-template-columns: repeat(auto-fit, 46.9333333vw);
+    grid-template-columns: repeat(auto-fit, 42vw);
     grid-row-gap: 26px;
     grid-column-gap: 26px;
     padding: 13px;
-    width: calc(187.7333vw + 78px);
+    width: calc(168vw + 78px);
   }
 }
 
@@ -74,8 +71,8 @@ ul {
   opacity: 0;
 
   @include sp {
-    width: 46.9333333vw;
-    height: 70.4vw;
+    width: 42vw;
+    height: 63vw;
   }
 
   a {
@@ -85,16 +82,16 @@ ul {
   }
 }
 
-.image:nth-of-type(2n) {
-  margin: -14.84375vw 0 0;
-  @include sp {
-    margin: -40vw 0 0;
-  }
-}
+// .image:nth-of-type(2n) {
+//   margin: -7.84375vw 0 0;
+//   @include sp {
+//     margin: -40vw 0 0;
+//   }
+// }
 
 .image:nth-of-type(1) {
   background-color: #1a1a1a;
-  background-image: url("/img/1.jpeg");
+  background-image: url("/img/1.png");
 }
 
 .image:nth-of-type(2) {
@@ -103,7 +100,7 @@ ul {
 }
 .image:nth-of-type(3) {
   background-color: #1a1a1a;
-  background-image: url("/img/3.jpeg");
+  background-image: url("/img/3.png");
 }
 .image:nth-of-type(4) {
   background-color: #1a1a1a;
@@ -111,7 +108,7 @@ ul {
 }
 .image:nth-of-type(5) {
   background-color: #1a1a1a;
-  background-image: url("/img/5.jpeg");
+  background-image: url("/img/5.png");
 }
 .image:nth-of-type(6) {
   background-color: #1a1a1a;
@@ -119,7 +116,7 @@ ul {
 }
 .image:nth-of-type(7) {
   background-color: #1a1a1a;
-  background-image: url("/img/7.jpeg");
+  background-image: url("/img/7.png");
 }
 .image:nth-of-type(8) {
   background-color: #1a1a1a;
@@ -140,7 +137,7 @@ ul {
 }
 .image:nth-of-type(12) {
   background-color: #1a1a1a;
-  background-image: url("/img/12.jpeg");
+  background-image: url("/img/12.png");
 }
 .image:nth-of-type(13) {
   background-color: #1a1a1a;
@@ -148,7 +145,7 @@ ul {
 }
 .image:nth-of-type(14) {
   background-color: #1a1a1a;
-  background-image: url("/img/14.jpg");
+  background-image: url("/img/14.png");
 }
 .image:nth-of-type(15) {
   background-color: #1a1a1a;
@@ -164,7 +161,7 @@ ul {
 }
 .image:nth-of-type(18) {
   background-color: #1a1a1a;
-  background-image: url("/img/18.jpeg");
+  background-image: url("/img/18.png");
 }
 .image:nth-of-type(19) {
   background-color: #1a1a1a;

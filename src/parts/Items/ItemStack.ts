@@ -1,14 +1,15 @@
 import * as THREE from "three";
 import { Item } from "../Item";
 import { Image } from "../GridItems";
-import vertex from "./shaders/item9.vert";
-import fragment from "./shaders/item9.frag";
+import vertex from "./shaders/item-title.vert";
+import fragment from "./shaders/item-stack.frag";
 import { Update } from "../../libs/update";
 import { Func } from "../../core/func";
 // @ts-ignore
 import { MSDFTextGeometry, uniforms } from "three-msdf-text-utils";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { lenis } from "../SmoothScroll";
+import { Param } from "../../core/param";
 
 function loadFontAtlas(path: string) {
   const promise = new Promise((resolve, _reject) => {
@@ -28,8 +29,13 @@ function loadFont(path: string) {
   return promise;
 }
 
-export class Item9 extends Item {
-  mesh: Item9Mesh | null = null;
+export class ItemStack extends Item {
+  mesh: ItemStackMesh | null = null;
+  mesh2: ItemStackMesh | null = null;
+  mesh3: ItemStackMesh | null = null;
+  mesh4: ItemStackMesh | null = null;
+  mesh5: ItemStackMesh | null = null;
+  mesh6: ItemStackMesh | null = null;
   protected _element: Image;
 
   constructor(element: Image) {
@@ -41,7 +47,27 @@ export class Item9 extends Item {
       loadFont("/fonts/Sauce Code Pro Nerd Font Complete-msdf.json"),
     ]).then(([atlas, font]: any) => {
       const geometry = new MSDFTextGeometry({
-        text: "Hello",
+        text: "- Main Skills -",
+        font: font.data,
+      });
+      const geometry2 = new MSDFTextGeometry({
+        text: "Javascript/Node.js",
+        font: font.data,
+      });
+      const geometry3 = new MSDFTextGeometry({
+        text: "Typescript",
+        font: font.data,
+      });
+      const geometry4 = new MSDFTextGeometry({
+        text: "React.js/Next.js",
+        font: font.data,
+      });
+      const geometry5 = new MSDFTextGeometry({
+        text: "Webgl/Shader",
+        font: font.data,
+      });
+      const geometry6 = new MSDFTextGeometry({
+        text: "Blender Basics",
         font: font.data,
       });
 
@@ -78,18 +104,11 @@ export class Item9 extends Item {
           u_dragVelocityY: {
             value: this._mousePointer.velocityY,
           },
-          u_color: {
-            value: new THREE.Color(0x51b1f5),
+          u_meshSize: {
+            value: new THREE.Vector2(this._element.width, this._element.height),
           },
-          u_lightColor: {
-            value: new THREE.Color(0xffffff),
-          },
-          u_lightPos: {
-            value: new THREE.Vector3(
-              this._mousePointer.lerpOld.x,
-              this._mousePointer.lerpOld.y,
-              500
-            ),
+          u_progress: {
+            value: 0,
           },
           uMap: {
             value: null,
@@ -101,20 +120,39 @@ export class Item9 extends Item {
 
       material.uniforms.uMap.value = atlas;
 
-      this.mesh = new Item9Mesh(geometry, material);
-      this.mesh.name = "item9";
-      console.log(this.mesh);
+      this.mesh = new ItemStackMesh(geometry, material);
+      this.mesh2 = new ItemStackMesh(geometry2, material);
+      this.mesh3 = new ItemStackMesh(geometry3, material);
+      this.mesh4 = new ItemStackMesh(geometry4, material);
+      this.mesh5 = new ItemStackMesh(geometry5, material);
+      this.mesh6 = new ItemStackMesh(geometry6, material);
 
       this.add(this.mesh);
+      this.add(this.mesh2);
+      this.add(this.mesh3);
+      this.add(this.mesh4);
+      this.add(this.mesh5);
+      this.add(this.mesh6);
 
       this.scale.set(
-        this._element.width / 150,
-        -this._element.width / 150,
-        this._element.width / 150
+        this._element.width / 350,
+        -this._element.width / 350,
+        this._element.width / 350
       );
 
       this.position.set(this._element.position.x, this._element.position.y, 0);
-      this.mesh.position.set(-63, -30, 0);
+      this.mesh.scale.set(0.9, 0.9, 0.9);
+      this.mesh2.scale.set(0.9, 0.9, 0.9);
+      this.mesh3.scale.set(0.9, 0.9, 0.9);
+      this.mesh4.scale.set(0.9, 0.9, 0.9);
+      this.mesh5.scale.set(0.9, 0.9, 0.9);
+      this.mesh6.scale.set(0.9, 0.9, 0.9);
+      this.mesh.position.set(35, -170, 0);
+      this.mesh2.position.set(0, -100, 0);
+      this.mesh3.position.set(88, -30, 0);
+      this.mesh4.position.set(25, 40, 0);
+      this.mesh5.position.set(70, 110, 0);
+      this.mesh6.position.set(45, 180, 0);
     });
   }
 
@@ -129,38 +167,42 @@ export class Item9 extends Item {
     material.uniforms.u_dragVelocityX.value = this._mousePointer.velocityX;
     material.uniforms.u_dragVelocityY.value = this._mousePointer.velocityY;
 
+    material.uniforms.u_progress.value = Param.instance.main.progress.value;
     material.uniforms.u_resolution.value.set(
       Func.instance.sw(),
       Func.instance.sh()
     );
 
-    material.uniforms.u_lightPos.value.set(
-      this._mousePointer.x - Func.instance.sw() / 2,
-      -this._mousePointer.y + Func.instance.sh() / 2,
-      400
-    );
     material.uniforms.u_scrollVelocity.value = lenis.velocity;
+    material.uniforms.u_meshSize.value.set(
+      this._element.width,
+      this._element.height
+    );
+    // const material2 = this.mesh2!.material as THREE.ShaderMaterial;
+    // material2.copy(material);
   }
 
   protected _resize(): void {
     super._resize();
 
     this.scale.set(
-      this._element.width / 2,
-      this._element.width / 2,
-      this._element.width / 2
+      this._element.width / 350,
+      -this._element.width / 350,
+      this._element.width / 350
     );
     const material = this.mesh!.material as THREE.ShaderMaterial;
     material.uniforms.u_isPC.value = Func.instance.sw() > 800;
+    // const material2 = this.mesh2!.material as THREE.ShaderMaterial;
+    // material2.copy(material);
   }
 }
 
-export class Item9Mesh extends THREE.Mesh {
+export class ItemStackMesh extends THREE.Mesh {
   constructor(geo: THREE.SphereGeometry, mat: THREE.ShaderMaterial) {
     super(geo, mat);
   }
 
   onHover() {}
-
+  onClick() {}
   onTouchLeave() {}
 }

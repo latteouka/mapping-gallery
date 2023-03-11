@@ -35,8 +35,6 @@ uniform float u_time;
 uniform float u_scrollVelocity;
 uniform float u_dragVelocityX;
 uniform float u_dragVelocityY;
-uniform vec2 u_meshSize;
-uniform vec2 u_textureSize;
 uniform vec2 u_resolution;
 uniform bool u_isPC;
 
@@ -53,12 +51,12 @@ void main() {
   
     if (u_isPC) {
       intensity = 50.0;
-      rotateFactor = 10.0;
+      // rotateFactor = 1.0;
       dragIntensity = 100.0;
     } else {
       intensity = 120.0;
-      rotateFactor = 0.5;
-      dragIntensity = 450.0;
+      // rotateFactor = 1.0;
+      dragIntensity = 300.0;
     }
   
     // slightly rotate the item
@@ -76,7 +74,7 @@ void main() {
       z += cos((coord.y) * PI) * u_scrollVelocity * intensity;
     }
   
-    x += sin((coord.y)) * u_scrollVelocity / rotateFactor;
+    // x += sin((coord.y)) * u_scrollVelocity / rotateFactor;
   
     if(u_dragVelocityX > 0.0){
       z += cos((coord.x) * PI) * u_dragVelocityX * -dragIntensity;
@@ -84,9 +82,9 @@ void main() {
     else {
       z += cos((coord.x) * PI) * u_dragVelocityX * dragIntensity;
     }
-  
-    x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
-  
+
+    // x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
+
     if(u_dragVelocityY > 0.0){
       // z += -cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
       z += cos((coord.y) * PI) * u_dragVelocityY * -dragIntensity;

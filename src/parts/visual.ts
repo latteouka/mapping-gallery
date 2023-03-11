@@ -7,8 +7,10 @@ import { ImageItem } from "./Item";
 import { Image } from "./GridItems";
 // import Stats from "stats.js";
 import { MousePointer } from "../core/mousePointer";
-import { Item22, Item22Mesh } from "./Items/Item22";
-import { Item9 } from "./Items/Item9";
+import { ItemGrainSphere, ItemGrainSphereMesh } from "./Items/ItemGrainSphere";
+import { ItemTitle } from "./Items/ItemTitle";
+import { ItemStack } from "./Items/ItemStack";
+import { ItemGradient } from "./Items/ItemGradient";
 // import gsap from "gsap";
 
 // const scroll = { value: 0 };
@@ -19,8 +21,9 @@ export class Visual extends Canvas {
   // private post: Post;
   // private _stats: Stats;
   private _raycaster: THREE.Raycaster;
-  private _mousePointer: MousePointer;
   private _hovered: { [key: string]: any } = {};
+
+  private _intersects: any;
 
   constructor(opt: any) {
     super(opt);
@@ -28,9 +31,12 @@ export class Visual extends Canvas {
     this._con = new Object3D();
     this.mainScene.add(this._con);
     this._raycaster = new THREE.Raycaster();
-    this._mousePointer = MousePointer.instance;
 
-    this.generateItemsPc(opt.images);
+    // manually start event listeners
+    // for loading animation purpose
+    MousePointer.instance.setListeners();
+
+    this.generateItems(opt.images);
 
     // this._stats = new Stats();
     // document.body.appendChild(this._stats.dom);
@@ -49,13 +55,19 @@ export class Visual extends Canvas {
     // this.post = new Post(this.renderer, this.mainScene, this.cameraPers);
 
     this._resize();
+
+    window.addEventListener("click", () => {
+      this._intersects.forEach((hit: any) => {
+        if (hit.object.onClick) hit.object.onClick();
+      });
+    });
   }
 
   protected intersect() {
     /// without this vec2 calculation raycasting will be wrong
     const rect = this.renderer.domElement.getBoundingClientRect();
-    const x = this._mousePointer.x - rect.left;
-    const y = this._mousePointer.y - rect.top;
+    const x = MousePointer.instance.x - rect.left;
+    const y = MousePointer.instance.y - rect.top;
     this._raycaster.setFromCamera(
       {
         x: (x / this.el.clientWidth) * 2 - 1,
@@ -65,20 +77,20 @@ export class Visual extends Canvas {
     );
     ///
 
-    const intersects = this._raycaster.intersectObjects(
+    this._intersects = this._raycaster.intersectObjects(
       this.mainScene.children,
       true
     );
 
     Object.keys(this._hovered).forEach((key) => {
-      const hit = intersects.find((hit) => hit.object.uuid === key);
+      const hit = this._intersects.find((hit: any) => hit.object.uuid === key);
       if (hit === undefined) {
         const hoveredItem = this._hovered[key];
         delete this._hovered[key];
       }
     });
 
-    intersects.forEach((hit: any) => {
+    this._intersects.forEach((hit: any) => {
       // If a hit has not been flagged as hovered we must call onPointerOver
       if (!this._hovered[hit.object.uuid]) {
         this._hovered[hit.object.uuid] = hit;
@@ -87,24 +99,66 @@ export class Visual extends Canvas {
       }
     });
 
-    // reset when not hit
-    const item22 = this.mainScene.getObjectByName("item22") as Item22Mesh;
-    item22.onTouchLeave();
+    // reset when hit nothing
+    if (this._intersects.length === 0) {
+      const item22 = this.mainScene.getObjectByName(
+        "item22"
+      ) as ItemGrainSphereMesh;
+      if (item22) item22.onTouchLeave();
+      const item_gradient = this.mainScene.getObjectByName(
+        "item-gradient"
+      ) as ItemGrainSphereMesh;
+      if (item_gradient) item_gradient.onTouchLeave();
+    }
   }
 
-  protected generateItemsPc(images: Image[]) {
-    for (let i = 0; i < images.length; i++) {
-      const image = images[i];
-      let item;
-      if (i === 21) {
-        item = new Item22(image);
-      } else if (i === 8) {
-        item = new Item9(image);
-      } else {
-        item = new ImageItem(image);
+  protected generateItems(images: Image[]) {
+    if (Func.instance.sw() > 800) {
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        let item;
+        if (i === 9) {
+          item = new ItemGrainSphere(image);
+        } else if (i === 1) {
+          item = new ItemGradient(image);
+        } else if (i === 3) {
+          item = new ItemGradient(image);
+        } else if (i === 5) {
+          item = new ItemGradient(image);
+        } else if (i === 18) {
+          item = new ItemGradient(image);
+        } else if (i === 20) {
+          item = new ItemGradient(image);
+        } else if (i === 22) {
+          item = new ItemGradient(image);
+        } else if (i === 8) {
+          item = new ItemTitle(image);
+        } else if (i === 14) {
+          item = new ItemStack(image);
+        } else if (i === 15) {
+        } else {
+          item = new ImageItem(image);
+        }
+        this._items.push(item);
+        if (item) this._con.add(item);
       }
-      this._items.push(item);
-      this._con.add(item);
+    } else {
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        let item;
+        if (i === 10) {
+          item = new ItemGrainSphere(image);
+        } else if (i === 9) {
+          item = new ItemTitle(image);
+        } else if (i === 13) {
+          item = new ItemStack(image);
+        } else if (i === 14) {
+        } else {
+          item = new ImageItem(image);
+        }
+        this._items.push(item);
+        if (item) this._con.add(item);
+      }
     }
     // for (let i = 0; i < this._items.length; i++) {
     //   this._items[i]._resize();

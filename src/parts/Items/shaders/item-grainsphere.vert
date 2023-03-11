@@ -87,8 +87,6 @@ void main(){
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 
-
-
   // light direction
   v_normal = normalize(normalMatrix * normal);
   vec3 worldSurfacePos = vec3(mvPosition);

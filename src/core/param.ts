@@ -16,7 +16,11 @@ export class Param {
 
   public main = {
     bg: { value: 0x000000, type: "color" },
-    progress: { value: 0.5, min: 0, max: 1 },
+    progress: { value: 1, min: 0, max: 1 },
+    progress2: { value: 1, min: 0, max: 1 },
+    progress3: { value: 1, min: 0, max: 1 },
+    progress4: { value: 1, min: 0, max: 1 },
+    gradient_speed: { value: 0.001, min: 0, max: 1 },
   };
 
   constructor() {
