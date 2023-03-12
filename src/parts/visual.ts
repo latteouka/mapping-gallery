@@ -15,6 +15,7 @@ import { ItemStroke } from "./Items/ItemStroke";
 import { ItemPoints } from "./Items/ItemPoints";
 import { ItemDistort } from "./Items/ItemDistort";
 import { Background } from "./Background";
+import { ItemChange } from "./Items/ItemChange";
 // import gsap from "gsap";
 
 // const scroll = { value: 0 };
@@ -125,6 +126,8 @@ export class Visual extends Canvas {
           item = new ItemRaymarching(image);
         } else if (i === 21) {
           item = new ItemStroke(image);
+        } else if (i === 23) {
+          item = new ItemChange(image);
           // } else if (i === 22) {
           //   item = new ItemGradient(image);
         } else if (i === 8) {

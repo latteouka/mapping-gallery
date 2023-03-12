@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { Item } from "../Item";
 import { Image } from "../GridItems";
-import vertex from "./shaders/item-distort.vert";
-import fragment from "./shaders/item-distort.frag";
+import vertex from "./shaders/item-change.vert";
+import fragment from "./shaders/item-change.frag";
 import { Update } from "../../libs/update";
 import { Func } from "../../core/func";
 import { lenis } from "../SmoothScroll";
@@ -12,8 +12,8 @@ import gsap from "gsap";
 
 const plane = new THREE.PlaneGeometry(1, 1, 64, 64);
 
-export class ItemDistort extends Item {
-  mesh: ItemDistortMesh;
+export class ItemChange extends Item {
+  mesh: ItemChangeMesh;
   private _texture1: THREE.Texture;
   private _texture2: THREE.Texture;
   protected _element: Image;
@@ -60,7 +60,7 @@ export class ItemDistort extends Item {
       opacity: 0.1,
     });
 
-    this.mesh = new ItemDistortMesh(plane, material);
+    this.mesh = new ItemChangeMesh(plane, material);
     this.mesh.name = "item-gradient";
     this.add(this.mesh);
     this.scale.set(this._element.width, this._element.width, 1);
@@ -121,7 +121,7 @@ export class ItemDistort extends Item {
   }
 }
 
-export class ItemDistortMesh extends THREE.Mesh {
+export class ItemChangeMesh extends THREE.Mesh {
   constructor(geo: THREE.PlaneGeometry, mat: THREE.ShaderMaterial) {
     super(geo, mat);
   }
