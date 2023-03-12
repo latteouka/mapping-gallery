@@ -25,11 +25,12 @@ export class Background extends MyObject3D {
           value: TexLoader.instance.get("/img/back.png"),
         },
       },
+      depthTest: false,
     });
 
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.scale.set(Func.instance.sw() * 1.2, Func.instance.sh() * 1.2, 1);
-    this.position.set(0, 0, -2000);
+    this.position.set(0, 0, -200);
     this.add(this.mesh);
   }
 
