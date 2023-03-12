@@ -9,12 +9,12 @@ import { Image } from "./GridItems";
 import { MousePointer } from "../core/mousePointer";
 import { ItemGrainSphere } from "./Items/ItemGrainSphere";
 import { ItemTitle } from "./Items/ItemTitle";
-import { ItemStack } from "./Items/ItemStack";
 import { ItemGradient } from "./Items/ItemGradient";
 import { ItemRaymarching } from "./Items/ItemRaymarching";
 import { ItemStroke } from "./Items/ItemStroke";
 import { ItemPoints } from "./Items/ItemPoints";
 import { ItemDistort } from "./Items/ItemDistort";
+import { Background } from "./Background";
 // import gsap from "gsap";
 
 // const scroll = { value: 0 };
@@ -41,6 +41,9 @@ export class Visual extends Canvas {
     MousePointer.instance.setListeners();
 
     this.generateItems(opt.images);
+
+    const back = new Background();
+    this.mainScene.add(back);
 
     // this._stats = new Stats();
     // document.body.appendChild(this._stats.dom);

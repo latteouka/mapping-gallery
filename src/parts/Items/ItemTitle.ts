@@ -157,12 +157,12 @@ export class ItemTitle extends Item {
 
     setTimeout(() => {
       this.animate();
-    }, 2000);
+    }, 1000);
   }
 
   private animate() {
     // const material = this.mesh!.material as THREE.ShaderMaterial;
-    const duration = 1.8;
+    const duration = 1.6;
     const stagger = 0.2;
     const tl = gsap.timeline();
     tl.to(Param.instance.main.progress, {
