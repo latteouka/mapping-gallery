@@ -145,6 +145,8 @@ export class Visual extends Canvas {
           item = new ItemGrainSphere(image);
         } else if (i === 9) {
           item = new ItemTitle(image);
+        } else if (i === 16) {
+          item = new ItemPoints(image);
         } else if (i === 20) {
           item = new ItemRaymarching(image);
         } else if (i === 21) {
