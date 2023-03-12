@@ -37,7 +37,7 @@ export class Background extends MyObject3D {
   protected _update(): void {
     super._update();
     const material = this.mesh.material as THREE.ShaderMaterial;
-    material.uniforms.u_time.value = Update.instance.cnt / 1000;
+    material.uniforms.u_time.value = Update.instance.cnt / 2000;
   }
 
   protected _resize(): void {
