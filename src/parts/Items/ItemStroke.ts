@@ -85,20 +85,13 @@ export class ItemStrokeMesh extends THREE.Mesh {
   }
 
   onHover() {
-    Param.instance.main.stroke_speed.value = Util.instance.lerp(
-      Param.instance.main.stroke_speed.value,
-      0.05,
-      0.005
-    );
+    Param.instance.main.stroke_speed.value = 0.06;
   }
 
   onClick() {}
 
   onTouchLeave() {
-    Param.instance.main.stroke_speed.value = Util.instance.lerp(
-      Param.instance.main.stroke_speed.value,
-      0.02,
-      0.005
-    );
+    console.log("leave");
+    Param.instance.main.stroke_speed.value = 0.02;
   }
 }

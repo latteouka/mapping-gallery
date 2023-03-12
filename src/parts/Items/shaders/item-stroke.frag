@@ -90,7 +90,7 @@ void main(void) {
 
   float light = dot(v_normal, normalize(vec3(1.0)));
 
-  float stroke = cos((v_pos.x - v_pos.y + sin(time)) * 200.0);
+  float stroke = cos((v_pos.x - v_pos.y + time) * 200.0);
 
   float smallnoise = snoise(100.0* vec3(v_uv, 1.0));
   float bignoise = snoise(5.0 * vec3(v_uv, 1.0));

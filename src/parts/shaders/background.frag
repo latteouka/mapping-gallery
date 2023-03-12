@@ -30,5 +30,4 @@ void main(void) {
 
   vec4 color = texture2D(u_texture, newUv);
   gl_FragColor = color;
-
 }

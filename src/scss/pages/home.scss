@@ -118,6 +118,9 @@ ul {
 .image:nth-of-type(2) {
   background-color: #1a1a1a;
   background-image: url("/img/2.png");
+  @include sp {
+    background-image: url("/img/6.png");
+  }
 }
 .image:nth-of-type(3) {
   background-color: #1a1a1a;
@@ -126,6 +129,9 @@ ul {
 .image:nth-of-type(4) {
   background-color: #1a1a1a;
   background-image: url("/img/5.png");
+  @include sp {
+    background-image: url("/img/7.png");
+  }
 }
 .image:nth-of-type(5) {
   background-color: #1a1a1a;
@@ -134,10 +140,16 @@ ul {
 .image:nth-of-type(6) {
   background-color: #1a1a1a;
   background-image: url("/img/6.png");
+  @include sp {
+    background-image: url("/img/2.png");
+  }
 }
 .image:nth-of-type(7) {
   background-color: #1a1a1a;
   background-image: url("/img/7.png");
+  @include sp {
+    background-image: url("/img/5.png");
+  }
 }
 .image:nth-of-type(8) {
   background-color: #1a1a1a;
@@ -181,6 +193,9 @@ ul {
 .image:nth-of-type(16) {
   background-color: #1a1a1a;
   background-image: url("/img/intro.png");
+  @include sp {
+    background-image: url("/img/11.png");
+  }
 }
 .image:nth-of-type(17) {
   background-color: #1a1a1a;

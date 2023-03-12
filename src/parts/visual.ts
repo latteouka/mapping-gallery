@@ -100,17 +100,12 @@ export class Visual extends Canvas {
     Object.keys(this._hovered).forEach((key) => {
       const hit = this._intersects.find((hit: any) => hit.object.uuid === key);
       if (hit === undefined) {
-        // const hoveredItem = this._hovered[key];
+        const hoveredItem = this._hovered[key];
+        // leave
+        if (hoveredItem.object.onTouchLeave) hoveredItem.object.onTouchLeave();
         delete this._hovered[key];
       }
     });
-
-    // reset when hit nothing
-    if (this._intersects.length === 0) {
-      this.mainScene.traverse((item: any) => {
-        if (item.onTouchLeave) item.onTouchLeave();
-      });
-    }
   }
 
   protected generateItems(images: Image[]) {

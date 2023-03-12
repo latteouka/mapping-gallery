@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { MyDisplay } from "../core/myDisplay";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 import { Scene } from "three/src/scenes/Scene";
@@ -7,6 +8,7 @@ import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Mesh } from "three/src/objects/Mesh";
 import { Points } from "three/src/objects/Points";
+import { Update } from "../libs/update";
 
 export class Canvas extends MyDisplay {
   public cameraPers: PerspectiveCamera;
@@ -17,6 +19,8 @@ export class Canvas extends MyDisplay {
 
   public isRender: boolean = true;
   public renderSize: Rect = new Rect();
+
+  public clock: THREE.Clock = new THREE.Clock();
 
   constructor(opt: any = {}) {
     super(opt);

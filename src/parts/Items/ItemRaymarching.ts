@@ -52,7 +52,7 @@ export class ItemRaymarching extends Item {
     this.mesh = new ItemRaymarchingMesh(plane, material);
     this.mesh.name = "item-gradient";
     this.add(this.mesh);
-    this.scale.set(this._element.width, this._element.height, 1);
+    this.scale.set(this._element.width, this._element.width, 1);
     this.position.set(this._element.position.x, this._element.position.y, 0);
   }
 

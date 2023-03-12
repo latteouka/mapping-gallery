@@ -57,8 +57,8 @@ float rand(vec2 co){
 float sdf(vec3 p) {
   vec3 p1 = rotate(p, vec3(1.0, 0.5, 0.0), u_time);
   float box = smin(sdBox(p1, vec3(0.2)), sdSphere(p, 0.2), 0.3);
-  float realSphere = sdSphere(p1, 0.3);
-  float final = mix(box, realSphere, 0.4);
+  float realSphere = sdSphere(p1, 0.4);
+  float final = mix(box, realSphere, 0.3);
 
   for(float i = 0.0; i < 6.0; i++) {
     float randOffset = rand(vec2(i, 0.0));

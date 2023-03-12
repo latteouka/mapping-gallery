@@ -102,20 +102,12 @@ export class ItemGradientMesh extends THREE.Mesh {
   }
 
   onHover() {
-    Param.instance.main.gradient_speed.value = Util.instance.lerp(
-      Param.instance.main.gradient_speed.value,
-      0.003,
-      0.005
-    );
+    Param.instance.main.gradient_speed.value = 0.003;
   }
 
   onClick() {}
 
   onTouchLeave() {
-    Param.instance.main.gradient_speed.value = Util.instance.lerp(
-      Param.instance.main.gradient_speed.value,
-      0.0015,
-      0.005
-    );
+    Param.instance.main.gradient_speed.value = 0.0015;
   }
 }
