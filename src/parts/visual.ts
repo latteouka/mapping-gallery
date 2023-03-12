@@ -148,7 +148,6 @@ export class Visual extends Canvas {
         } else if (i === 16) {
           item = new ItemPoints(image);
         } else if (i === 20) {
-          item = new ItemRaymarching(image);
         } else if (i === 21) {
           item = new ItemGradient(image);
         } else if (i === 22) {
