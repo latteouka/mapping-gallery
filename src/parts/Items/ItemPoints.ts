@@ -70,7 +70,8 @@ export class ItemPoints extends Item {
   }
 
   private _sampler(geo: THREE.BufferGeometry) {
-    const num = Func.instance.sw() > 800 ? 3000 : 1000;
+    // const num = Func.instance.sw() > 800 ? 3000 : 1000;
+    const num = 3000;
     const material = new THREE.MeshBasicMaterial();
     const mesh = new THREE.Mesh(geo.toNonIndexed(), material);
     const sampler = new MeshSurfaceSampler(mesh).build();
