@@ -121,5 +121,7 @@ void main(void) {
     color = mix(color, bg, fresnel);
   }
 
+  if (color.r<0.1) discard;
+
   gl_FragColor = vec4(color, 1.0);
 }
