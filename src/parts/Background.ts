@@ -29,19 +29,17 @@ export class Background extends MyObject3D {
 
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.scale.set(Func.instance.sw() * 1.2, Func.instance.sh() * 1.2, 1);
-    this.mesh.position.set(0, 0, -200);
+    this.add(this.mesh);
   }
 
   protected _update(): void {
     super._update();
-    this.mesh.position.set(0, 0, -200);
     const material = this.mesh.material as THREE.ShaderMaterial;
     material.uniforms.u_time.value = Update.instance.cnt / 1000;
   }
 
   protected _resize(): void {
     super._resize();
-    this.mesh.position.set(0, 0, -200);
     this.mesh.scale.set(Func.instance.sw() * 1.2, Func.instance.sh() * 1.2, 1);
   }
 }

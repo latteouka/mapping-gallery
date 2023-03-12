@@ -43,8 +43,8 @@ export class Visual extends Canvas {
     this.generateItems(opt.images);
 
     const back = new Background();
-    console.log(back);
-    this.mainScene.add(back.mesh);
+    back.position.set(0, 0, -200);
+    this.mainScene.add(back);
 
     // this._stats = new Stats();
     // document.body.appendChild(this._stats.dom);
