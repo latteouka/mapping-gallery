@@ -83,8 +83,6 @@ export class ItemRaymarchingMesh extends THREE.Mesh {
   }
 
   onHover() {}
-
   onClick() {}
-
   onTouchLeave() {}
 }

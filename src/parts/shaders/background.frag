@@ -1,9 +1,4 @@
 uniform float u_time;
-uniform sampler2D u_imageTexture;
-uniform sampler2D u_noiseTexture;
-uniform float u_scrollVelocity;
-uniform float u_dragVelocityX;
-uniform float u_dragVelocityY;
 uniform sampler2D u_texture;
 
 varying vec3 v_pos;

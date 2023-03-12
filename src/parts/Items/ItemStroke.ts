@@ -83,15 +83,11 @@ export class ItemStrokeMesh extends THREE.Mesh {
   constructor(geo: THREE.SphereGeometry, mat: THREE.ShaderMaterial) {
     super(geo, mat);
   }
-
   onHover() {
     Param.instance.main.stroke_speed.value = 0.06;
   }
-
   onClick() {}
-
   onTouchLeave() {
-    console.log("leave");
     Param.instance.main.stroke_speed.value = 0.02;
   }
 }

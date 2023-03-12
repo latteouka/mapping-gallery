@@ -1,10 +1,4 @@
 uniform float u_time;
-uniform float u_scrollVelocity;
-uniform float u_dragVelocityX;
-uniform float u_dragVelocityY;
-uniform vec2 u_meshSize;
-uniform vec2 u_textureSize;
-uniform vec2 u_resolution;
 uniform bool u_isPC;
 
 varying vec3 v_pos;
