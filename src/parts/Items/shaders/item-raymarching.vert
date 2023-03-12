@@ -2,7 +2,7 @@ uniform float u_time;
 uniform float u_scrollVelocity;
 uniform float u_dragVelocityX;
 uniform float u_dragVelocityY;
-uniform vec2 u_resolution;
+uniform vec4 u_resolution;
 uniform bool u_isPC;
 uniform vec3 u_color[5];
 
@@ -97,43 +97,10 @@ void main(){
   vec3 pos = position;
   vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
   
-  //
-  // ---
-  vec2 noiseCoord = uv * vec2(2.0, 3.0);
-
-  float tilt = uv.y * -0.8;
-  float incline = uv.x * 10.0;
-  float offset = incline * 0.5 * mix(-0.5, 0.5, uv.y);
-
-  float noise = snoise(vec3(noiseCoord.x + time * 3.0, noiseCoord.y + time * 10.0, time));
-
-  noise = max(0.0, noise);
-
-  // if (uv.x > 0.05 && uv.x < 0.95 && uv.y > 0.05 && uv.y < 0.95) {
-  //   pos.z += noise * 30.0 + tilt + incline + offset;
-  // }
-
-  v_color = vec3(0.6);
-  for( int i = 0; i < 5; i++) {
-    float noiseFlow = 1.0 + float(i) * 0.3; 
-    float noiseSpeed = 2.0 + float(i) * 0.3;
-    float noiseSeed = 1.0 + float(i) * 10.0;
-
-    vec2 noiseFreq = vec2(0.3, 0.4);
-
-    float noise = snoise(
-        vec3(
-          noiseCoord.x * noiseFreq.x + sin(time) * noiseFlow,
-          noiseCoord.y * noiseFreq.y,
-          sin(time) * noiseSpeed + noiseSeed
-        )
-      ) * 0.8;
-    v_color = mix(v_color, u_color[i], noise);
-  }
 
   // ---
   //
-  vec2 coord = mvPosition.xy / u_resolution;
+  vec2 coord = mvPosition.xy / u_resolution.xy;
   vec2 uvCurve = uv;
 
   float intensity = 0.0;

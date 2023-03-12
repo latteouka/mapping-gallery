@@ -36,6 +36,7 @@ uniform float u_scrollVelocity;
 uniform float u_dragVelocityX;
 uniform float u_dragVelocityY;
 uniform vec2 u_resolution;
+uniform vec2 u_mouse;
 uniform bool u_isPC;
 
 void main() {
@@ -50,7 +51,7 @@ void main() {
     float dragIntensity = 0.0;
   
     if (u_isPC) {
-      intensity = 50.0;
+      intensity = 30.0;
       // rotateFactor = 1.0;
       dragIntensity = 100.0;
     } else {
@@ -64,11 +65,16 @@ void main() {
     // float y = cos((uvCurve.x) * PI) * u_scrollVelocity / 50.0;
     float y = 0.0;
     float z = 0.0;
+
+    // x += cos(u_mouse.x * PI )  * 100.0;
+    // y -= sin(u_mouse.y * PI ) * 1000.0;
+    // z += 1.0 -  smoothstep(0.6, 1.0, sin((coord.x) * PI)) * 3000.0;
+    // z += smoothstep(0.6, 1.0, cos((coord.y) * PI)) * 3000.0;
   
     // z += cos((coord.y) * PI) * 100000.0;
   
     if(u_scrollVelocity > 0.0){
-      z += -cos((coord.y) * PI) * u_scrollVelocity * -intensity;
+      z += cos((coord.y) * PI) * u_scrollVelocity * -intensity;
     }
     else {
       z += cos((coord.y) * PI) * u_scrollVelocity * intensity;
@@ -92,7 +98,7 @@ void main() {
     else {
       // z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
       if(u_isPC) {
-        z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
+        z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
       } else {
         z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
       }

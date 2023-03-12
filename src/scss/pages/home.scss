@@ -27,7 +27,6 @@ ul {
   opacity: 1;
   z-index: 2;
   pointer-events: none;
-  transform: scale(1.07) rotate(-2deg);
 }
 
 .gallery-wrapper {
@@ -82,6 +81,28 @@ ul {
   }
 }
 
+.stack {
+  position: relative;
+  z-index: 5;
+}
+.stack-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  color: white;
+  width: calc(34.375vw + 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 23.4375vw;
+}
+
+.stack-title {
+  flex: 1;
+}
+
 // .image:nth-of-type(2n) {
 //   margin: -7.84375vw 0 0;
 //   @include sp {
@@ -96,7 +117,7 @@ ul {
 
 .image:nth-of-type(2) {
   background-color: #1a1a1a;
-  background-image: url("/img/2.jpeg");
+  background-image: url("/img/2.png");
 }
 .image:nth-of-type(3) {
   background-color: #1a1a1a;
@@ -104,7 +125,7 @@ ul {
 }
 .image:nth-of-type(4) {
   background-color: #1a1a1a;
-  background-image: url("/img/4.jpeg");
+  background-image: url("/img/4.png");
 }
 .image:nth-of-type(5) {
   background-color: #1a1a1a;
@@ -112,7 +133,7 @@ ul {
 }
 .image:nth-of-type(6) {
   background-color: #1a1a1a;
-  background-image: url("/img/6.jpeg");
+  background-image: url("/img/6.png");
 }
 .image:nth-of-type(7) {
   background-color: #1a1a1a;
@@ -120,16 +141,16 @@ ul {
 }
 .image:nth-of-type(8) {
   background-color: #1a1a1a;
-  background-image: url("/img/8.jpeg");
+  background-image: url("/img/8.png");
 }
 .image:nth-of-type(9) {
   background-color: #1a1a1a;
-  background-image: url("/img/9.jpeg");
+  background-image: url("/img/11.png");
 }
 
 .image:nth-of-type(10) {
   background-color: #1a1a1a;
-  background-image: url("/img/10.jpeg");
+  background-image: url("/img/11.png");
 }
 .image:nth-of-type(11) {
   background-color: #1a1a1a;
@@ -141,51 +162,63 @@ ul {
 }
 .image:nth-of-type(13) {
   background-color: #1a1a1a;
-  background-image: url("/img/13.jpeg");
+  background-image: url("/img/13.png");
 }
 .image:nth-of-type(14) {
   background-color: #1a1a1a;
   background-image: url("/img/14.png");
+  @include sp {
+    background-image: url("/img/stack-2.png");
+  }
 }
 .image:nth-of-type(15) {
   background-color: #1a1a1a;
-  background-image: url("/img/15.jpeg");
+  background-image: url("/img/stack-2.png");
+  @include sp {
+    background-image: url("/img/intro.png");
+  }
 }
 .image:nth-of-type(16) {
   background-color: #1a1a1a;
-  background-image: url("/img/16.jpeg");
+  background-image: url("/img/intro.png");
 }
 .image:nth-of-type(17) {
   background-color: #1a1a1a;
-  background-image: url("/img/17.jpeg");
+  background-image: url("/img/17-2.png");
 }
 .image:nth-of-type(18) {
   background-color: #1a1a1a;
   background-image: url("/img/18.png");
+  @include sp {
+    background-image: url("/img/14.png");
+  }
 }
 .image:nth-of-type(19) {
   background-color: #1a1a1a;
-  background-image: url("/img/19.jpeg");
+  background-image: url("/img/19.png");
+  @include sp {
+    background-image: url("/img/17-2.png");
+  }
 }
 .image:nth-of-type(20) {
   background-color: #1a1a1a;
-  background-image: url("/img/20.jpeg");
+  background-image: url("/img/20.png");
 }
 .image:nth-of-type(21) {
   background-color: #1a1a1a;
-  background-image: url("/img/21.jpeg");
+  background-image: url("/img/11.png");
 }
 .image:nth-of-type(22) {
   background-color: #1a1a1a;
-  background-image: url("/img/22.jpeg");
+  background-image: url("/img/11.png");
 }
 .image:nth-of-type(23) {
   background-color: #1a1a1a;
-  background-image: url("/img/23.jpeg");
+  background-image: url("/img/11.png");
 }
 .image:nth-of-type(24) {
   background-color: #1a1a1a;
-  background-image: url("/img/24.jpeg");
+  background-image: url("/img/24.png");
 }
 
 .disable {

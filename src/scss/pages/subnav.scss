@@ -1,0 +1,91 @@
+@use "../global/" as *;
+$jura: "Jura", sans-serif;
+$bebas: "Bebas Neue", cursive;
+
+@font-face {
+  font-family: "scp";
+  src: url("/fonts/SCP.otf") format("opentype");
+}
+
+.subnav-wrapper {
+  position: fixed;
+  left: 1rem;
+  bottom: 2rem;
+  height: 2rem;
+  z-index: 4;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  transition: all 0.6s;
+  font-family: "scp";
+
+  @include sp {
+    font-size: 1rem;
+  }
+}
+
+.subnav {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.email {
+  position: relative;
+
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    transform-origin: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    left: 0;
+    bottom: 0;
+    transition: transform 0.15s ease-in;
+    transform: scale(0);
+    height: 1px;
+    width: 100%;
+  }
+
+  &:hover::after {
+    transform: scale(1);
+  }
+}
+
+.divide {
+  width: 1px;
+  background: rgba(0, 0, 0, 0.3);
+  height: 1.1rem;
+}
+
+.instagram {
+  position: relative;
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    transform-origin: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    left: 0;
+    bottom: 0;
+    transition: transform 0.15s ease-in;
+    transform: scale(0);
+    height: 1px;
+    width: 100%;
+  }
+
+  &:hover::after {
+    transform: scale(1);
+  }
+}

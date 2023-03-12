@@ -91,12 +91,13 @@ void main() {
     float y = floor(uv.y * 5.0);
     float pattern = noise(vec2(x, y));
 
+    vec3 color_red = vec3(0.911, 0.284, 0.372);
     vec3 color_pink = vec3(0.972, 0.811, 0.813);
 
     // layers
     vec4 l1 = vec4(1.0, 1.0, 1.0, border * 0.5);
     vec4 l2 = vec4(1.0, 1.0, 1.0, border);
-    vec4 l3 = vec4(color_pink, alpha);
+    vec4 l3 = vec4(color_red, alpha);
     vec4 l4 = vec4(1.0, 1.0, 1.0, alpha);
 
     float w = 0.5;

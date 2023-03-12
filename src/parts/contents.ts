@@ -1,7 +1,5 @@
 import { MyDisplay } from "../core/myDisplay";
-import { Param } from "../core/param";
 import { GridItems } from "./GridItems";
-import { lenis } from "./SmoothScroll";
 import { Visual } from "./visual";
 
 // -----------------------------------------
@@ -21,8 +19,6 @@ export class Contents extends MyDisplay {
       transparent: true,
       images: this._images.images,
     });
-
-    new Param();
 
     // setTimeout(() => {
     //   lenis.scrollTo(3000, {

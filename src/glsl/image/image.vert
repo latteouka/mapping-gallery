@@ -29,7 +29,7 @@ void main(){
   float dragIntensity = 0.0;
 
   if (u_isPC) {
-    intensity = 50.0;
+    intensity = 30.0;
     rotateFactor = 10.0;
     dragIntensity = 200.0;
   } else {
@@ -47,7 +47,7 @@ void main(){
   // full screen coord based distort(scroll)
   // -----------
   if(u_scrollVelocity > 0.0){
-    z += -cos((coord.y) * PI) * u_scrollVelocity * -intensity;
+    z += cos((coord.y) * PI) * u_scrollVelocity * -intensity;
   }
   else {
     z += cos((coord.y) * PI) * u_scrollVelocity * intensity;
@@ -74,7 +74,7 @@ void main(){
   }
   else {
     if(u_isPC) {
-      z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
+      z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
     } else {
       // only ball effect on sp
       z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;

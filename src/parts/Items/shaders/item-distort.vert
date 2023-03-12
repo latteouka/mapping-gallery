@@ -2,17 +2,14 @@ uniform float u_time;
 uniform float u_scrollVelocity;
 uniform float u_dragVelocityX;
 uniform float u_dragVelocityY;
-uniform vec2 u_meshSize;
-uniform vec2 u_textureSize;
 uniform vec2 u_resolution;
 uniform bool u_isPC;
-
-uniform vec3 u_lightPos;
+uniform vec3 u_color[5];
 
 varying vec3 v_pos;
 varying vec3 v_normal;
 varying vec2 v_uv;
-varying vec3 v_surfaceToLight;
+varying vec3 v_color;
 
 float PI = 3.1415926535897932384626433832795;
 
@@ -21,35 +18,30 @@ void main(){
   v_normal = normal;
   v_uv = uv;
 
+  float time = u_time;
   vec3 pos = position;
-  vec4 mvPosition =  modelViewMatrix * vec4(pos, 1.0);
-
+  vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+  
   vec2 coord = mvPosition.xy / u_resolution;
-
   vec2 uvCurve = uv;
-
 
   float intensity = 0.0;
   float rotateFactor = 0.0;
   float dragIntensity = 0.0;
 
   if (u_isPC) {
-    intensity = 1.0;
+    intensity = 50.0;
     rotateFactor = 10.0;
-    dragIntensity = 3.0;
+    dragIntensity = 200.0;
   } else {
-    intensity = 3.0;
-    rotateFactor = 10.0;
-    dragIntensity = 8.0;
+    intensity = 120.0;
+    rotateFactor = 0.5;
+    dragIntensity = 450.0;
   }
 
-  // slightly rotate the item
   float x = 0.0;
-  // float y = cos((uvCurve.x) * PI) * u_scrollVelocity / 50.0;
   float y = 0.0;
   float z = 0.0;
-
-  // z += cos((coord.y) * PI) * 100000.0;
 
   if(u_scrollVelocity > 0.0){
     z += cos((coord.y) * PI) * u_scrollVelocity * -intensity;
@@ -70,11 +62,9 @@ void main(){
   x += sin((coord.y)) * u_dragVelocityX / rotateFactor;
 
   if(u_dragVelocityY > 0.0){
-    // z += -cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
     z += cos((coord.y) * PI) * u_dragVelocityY * -dragIntensity;
   }
   else {
-    // z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
     if(u_isPC) {
       z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
     } else {
@@ -86,11 +76,4 @@ void main(){
   pos += curve * 0.03;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-
-  // light direction
-  v_normal = normalize(normalMatrix * normal);
-  vec3 worldSurfacePos = vec3(mvPosition);
-  vec3 worldLightPos = vec3(viewMatrix * vec4(u_lightPos, 1.0));
-
-  v_surfaceToLight = normalize(worldLightPos - worldSurfacePos);
 }

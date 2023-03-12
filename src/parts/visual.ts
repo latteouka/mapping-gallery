@@ -7,10 +7,14 @@ import { ImageItem } from "./Item";
 import { Image } from "./GridItems";
 // import Stats from "stats.js";
 import { MousePointer } from "../core/mousePointer";
-import { ItemGrainSphere, ItemGrainSphereMesh } from "./Items/ItemGrainSphere";
+import { ItemGrainSphere } from "./Items/ItemGrainSphere";
 import { ItemTitle } from "./Items/ItemTitle";
 import { ItemStack } from "./Items/ItemStack";
 import { ItemGradient } from "./Items/ItemGradient";
+import { ItemRaymarching } from "./Items/ItemRaymarching";
+import { ItemStroke } from "./Items/ItemStroke";
+import { ItemPoints } from "./Items/ItemPoints";
+import { ItemDistort } from "./Items/ItemDistort";
 // import gsap from "gsap";
 
 // const scroll = { value: 0 };
@@ -82,16 +86,7 @@ export class Visual extends Canvas {
       true
     );
 
-    Object.keys(this._hovered).forEach((key) => {
-      const hit = this._intersects.find((hit: any) => hit.object.uuid === key);
-      if (hit === undefined) {
-        const hoveredItem = this._hovered[key];
-        delete this._hovered[key];
-      }
-    });
-
     this._intersects.forEach((hit: any) => {
-      // If a hit has not been flagged as hovered we must call onPointerOver
       if (!this._hovered[hit.object.uuid]) {
         this._hovered[hit.object.uuid] = hit;
       } else {
@@ -99,16 +94,19 @@ export class Visual extends Canvas {
       }
     });
 
+    Object.keys(this._hovered).forEach((key) => {
+      const hit = this._intersects.find((hit: any) => hit.object.uuid === key);
+      if (hit === undefined) {
+        // const hoveredItem = this._hovered[key];
+        delete this._hovered[key];
+      }
+    });
+
     // reset when hit nothing
     if (this._intersects.length === 0) {
-      const item22 = this.mainScene.getObjectByName(
-        "item22"
-      ) as ItemGrainSphereMesh;
-      if (item22) item22.onTouchLeave();
-      const item_gradient = this.mainScene.getObjectByName(
-        "item-gradient"
-      ) as ItemGrainSphereMesh;
-      if (item_gradient) item_gradient.onTouchLeave();
+      this.mainScene.traverse((item: any) => {
+        if (item.onTouchLeave) item.onTouchLeave();
+      });
     }
   }
 
@@ -119,23 +117,22 @@ export class Visual extends Canvas {
         let item;
         if (i === 9) {
           item = new ItemGrainSphere(image);
-        } else if (i === 1) {
-          item = new ItemGradient(image);
-        } else if (i === 3) {
-          item = new ItemGradient(image);
-        } else if (i === 5) {
-          item = new ItemGradient(image);
-        } else if (i === 18) {
-          item = new ItemGradient(image);
+        } else if (i === 22) {
+          item = new ItemDistort(image);
         } else if (i === 20) {
           item = new ItemGradient(image);
-        } else if (i === 22) {
-          item = new ItemGradient(image);
+        } else if (i === 19) {
+          item = new ItemPoints(image);
+        } else if (i === 18) {
+          item = new ItemRaymarching(image);
+        } else if (i === 21) {
+          item = new ItemStroke(image);
+          // } else if (i === 22) {
+          //   item = new ItemGradient(image);
         } else if (i === 8) {
           item = new ItemTitle(image);
-        } else if (i === 14) {
-          item = new ItemStack(image);
-        } else if (i === 15) {
+          // } else if (i === 14) {
+          //   item = new ItemStack(image);
         } else {
           item = new ImageItem(image);
         }
@@ -150,9 +147,14 @@ export class Visual extends Canvas {
           item = new ItemGrainSphere(image);
         } else if (i === 9) {
           item = new ItemTitle(image);
-        } else if (i === 13) {
-          item = new ItemStack(image);
-        } else if (i === 14) {
+        } else if (i === 20) {
+          item = new ItemRaymarching(image);
+        } else if (i === 21) {
+          item = new ItemGradient(image);
+        } else if (i === 22) {
+          item = new ItemStroke(image);
+        } else if (i === 23) {
+          item = new ItemDistort(image);
         } else {
           item = new ImageItem(image);
         }

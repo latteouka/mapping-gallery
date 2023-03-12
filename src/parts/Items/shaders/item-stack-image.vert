@@ -12,7 +12,7 @@ uniform vec3 u_lightPos;
 varying vec3 v_pos;
 varying vec3 v_normal;
 varying vec2 v_uv;
-varying vec3 v_surfaceToLight;
+varying vec2 v_screenSpace;
 
 float PI = 3.1415926535897932384626433832795;
 
@@ -52,7 +52,7 @@ void main(){
   // z += cos((coord.y) * PI) * 100000.0;
 
   if(u_scrollVelocity > 0.0){
-    z += cos((coord.y) * PI) * u_scrollVelocity * -intensity;
+    z += -cos((coord.y) * PI) * u_scrollVelocity * -intensity;
   }
   else {
     z += cos((coord.y) * PI) * u_scrollVelocity * intensity;
@@ -76,7 +76,7 @@ void main(){
   else {
     // z += cos((uvCurve.y) * PI) * u_dragVelocityY * dragIntensity;
     if(u_isPC) {
-      z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
+      z += -cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
     } else {
       z += cos((coord.y) * PI) * u_dragVelocityY * dragIntensity;
     }
@@ -86,11 +86,4 @@ void main(){
   pos += curve * 0.03;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-
-  // light direction
-  v_normal = normalize(normalMatrix * normal);
-  vec3 worldSurfacePos = vec3(mvPosition);
-  vec3 worldLightPos = vec3(viewMatrix * vec4(u_lightPos, 1.0));
-
-  v_surfaceToLight = normalize(worldLightPos - worldSurfacePos);
 }

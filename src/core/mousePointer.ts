@@ -22,6 +22,7 @@ export class MousePointer {
   public isDragging: boolean = false;
   public velocityX: number = 0;
   public velocityY: number = 0;
+  public velocityAlways: Point = new Point();
 
   public onSwipe: any;
 
@@ -193,6 +194,8 @@ export class MousePointer {
 
     this.velocityX = offsetX;
     this.velocityY = offsetY;
+
+    this.velocityAlways.set(this.x - this.old.x, this.y - this.old.y);
     /////////
 
     this.normal.x = Util.instance.map(this.x, -1, 1, 0, window.innerWidth);

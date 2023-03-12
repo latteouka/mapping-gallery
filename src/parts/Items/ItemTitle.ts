@@ -11,6 +11,7 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { lenis } from "../SmoothScroll";
 import { Param } from "../../core/param";
 import gsap from "gsap";
+import { MousePointer } from "../../core/mousePointer";
 
 function loadFontAtlas(path: string) {
   const promise = new Promise((resolve, _reject) => {
@@ -33,8 +34,8 @@ function loadFont(path: string) {
 export class ItemTitle extends Item {
   mesh: ItemTitleMesh | null = null;
   mesh2: ItemTitleMesh | null = null;
-  mesh3: ItemIntroMesh | null = null;
-  mesh4: ItemIntroMesh | null = null;
+  // mesh3: ItemIntroMesh | null = null;
+  // mesh4: ItemIntroMesh | null = null;
   protected _element: Image;
 
   constructor(element: Image) {
@@ -53,14 +54,14 @@ export class ItemTitle extends Item {
         text: "I'm Yi Chun",
         font: font.data,
       });
-      const geometry3 = new MSDFTextGeometry({
-        text: "I'm looking for a full time",
-        font: font.data,
-      });
-      const geometry4 = new MSDFTextGeometry({
-        text: "frontend/webgl job.",
-        font: font.data,
-      });
+      // const geometry3 = new MSDFTextGeometry({
+      //   text: "I'm looking for a full time",
+      //   font: font.data,
+      // });
+      // const geometry4 = new MSDFTextGeometry({
+      //   text: "frontend/webgl job.",
+      //   font: font.data,
+      // });
 
       const material = new THREE.ShaderMaterial({
         side: THREE.DoubleSide,
@@ -113,6 +114,12 @@ export class ItemTitle extends Item {
           uMap: {
             value: null,
           },
+          u_mouse: {
+            value: new THREE.Vector2(
+              this._mousePointer.normal.x,
+              this._mousePointer.normal.y
+            ),
+          },
         },
         transparent: true,
         opacity: 0.1,
@@ -122,17 +129,14 @@ export class ItemTitle extends Item {
 
       this.mesh = new ItemTitleMesh(geometry, material);
       this.mesh2 = new ItemTitleMesh(geometry2, material);
-      this.mesh3 = new ItemTitleMesh(geometry3, material);
-      this.mesh4 = new ItemTitleMesh(geometry4, material);
+      // this.mesh3 = new ItemTitleMesh(geometry3, material);
+      // this.mesh4 = new ItemTitleMesh(geometry4, material);
       this.mesh.name = "item-title-1";
       this.mesh2.name = "item-title-2";
-      this.mesh3.name = "item-title-3";
-      this.mesh4.name = "item-title-4";
+      // this.mesh3.name = "item-title-3";
+      // this.mesh4.name = "item-title-4";
 
-      this.add(this.mesh);
-      this.add(this.mesh2);
-      this.add(this.mesh3);
-      this.add(this.mesh4);
+      this.add(this.mesh, this.mesh2);
 
       this.scale.set(
         this._element.width / 150,
@@ -143,12 +147,12 @@ export class ItemTitle extends Item {
       this.position.set(this._element.position.x, this._element.position.y, 0);
       this.mesh.scale.set(1, 1, 1);
       this.mesh2.scale.set(1, 1, 1);
-      this.mesh3.scale.set(0.4, 0.4, 0.4);
-      this.mesh4.scale.set(0.4, 0.4, 0.4);
+      // this.mesh3.scale.set(0.4, 0.4, 0.4);
+      // this.mesh4.scale.set(0.4, 0.4, 0.4);
       this.mesh.position.set(-60, -20, 0);
       this.mesh2.position.set(-60, 30, 0);
-      this.mesh3.position.set(-50, 80, 0);
-      this.mesh4.position.set(-50, 105, 0);
+      // this.mesh3.position.set(-50, 80, 0);
+      // this.mesh4.position.set(-50, 105, 0);
     });
 
     setTimeout(() => {
@@ -216,6 +220,10 @@ export class ItemTitle extends Item {
     material.uniforms.u_meshSize.value.set(
       this._element.width,
       this._element.height
+    );
+    material.uniforms.u_mouse.value.set(
+      MousePointer.instance.normal.x,
+      MousePointer.instance.normal.y
     );
     // const material2 = this.mesh2!.material as THREE.ShaderMaterial;
     // material2.copy(material);

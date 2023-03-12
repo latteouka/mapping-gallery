@@ -12,7 +12,7 @@ uniform vec3 u_lightPos;
 varying vec3 v_pos;
 varying vec3 v_normal;
 varying vec2 v_uv;
-varying vec3 v_surfaceToLight;
+varying vec2 v_screenSpace;
 
 float PI = 3.1415926535897932384626433832795;
 
@@ -34,13 +34,13 @@ void main(){
   float dragIntensity = 0.0;
 
   if (u_isPC) {
-    intensity = 1.0;
+    intensity = 50.0;
     rotateFactor = 10.0;
-    dragIntensity = 3.0;
+    dragIntensity = 200.0;
   } else {
-    intensity = 3.0;
-    rotateFactor = 10.0;
-    dragIntensity = 8.0;
+    intensity = 120.0;
+    rotateFactor = 0.5;
+    dragIntensity = 450.0;
   }
 
   // slightly rotate the item
@@ -87,10 +87,5 @@ void main(){
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 
-  // light direction
-  v_normal = normalize(normalMatrix * normal);
-  vec3 worldSurfacePos = vec3(mvPosition);
-  vec3 worldLightPos = vec3(viewMatrix * vec4(u_lightPos, 1.0));
-
-  v_surfaceToLight = normalize(worldLightPos - worldSurfacePos);
+  v_screenSpace = gl_Position.xy / gl_Position.w;
 }
