@@ -40,8 +40,8 @@ export class Background extends MyObject3D {
     });
 
     this._mesh = new THREE.Mesh(geometry, material);
-    this._mesh.scale.set(Func.instance.sw() * 1.2, Func.instance.sh() * 1.2, 1);
-    this.position.set(0, 0, -200);
+    this._mesh.scale.set(Func.instance.sw() * 1.5, Func.instance.sh() * 1.5, 1);
+    this.position.set(0, 0, -500);
     this.add(this._mesh);
   }
 

@@ -42,8 +42,8 @@ export class Visual extends Canvas {
 
     this.generateItems(opt.images);
 
-    // const back = new Background();
-    // this.mainScene.add(back);
+    const back = new Background();
+    this.mainScene.add(back);
 
     // this._stats = new Stats();
     // document.body.appendChild(this._stats.dom);
