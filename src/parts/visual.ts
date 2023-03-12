@@ -43,7 +43,6 @@ export class Visual extends Canvas {
     this.generateItems(opt.images);
 
     const back = new Background();
-    back.position.set(0, 0, -200);
     this.mainScene.add(back);
 
     // this._stats = new Stats();
