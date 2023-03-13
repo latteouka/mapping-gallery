@@ -64,6 +64,7 @@ export class Visual extends Canvas {
 
     this._resize();
 
+    // onclick
     window.addEventListener("click", () => {
       this._intersects.forEach((hit: any) => {
         if (hit.object.onClick) hit.object.onClick();
@@ -90,6 +91,7 @@ export class Visual extends Canvas {
       true
     );
 
+    // hover
     this._intersects.forEach((hit: any) => {
       if (!this._hovered[hit.object.uuid]) {
         this._hovered[hit.object.uuid] = hit;
@@ -98,11 +100,11 @@ export class Visual extends Canvas {
       }
     });
 
+    // object and leave
     Object.keys(this._hovered).forEach((key) => {
       const hit = this._intersects.find((hit: any) => hit.object.uuid === key);
       if (hit === undefined) {
         const hoveredItem = this._hovered[key];
-        // leave
         if (hoveredItem.object.onTouchLeave) hoveredItem.object.onTouchLeave();
         delete this._hovered[key];
       }
