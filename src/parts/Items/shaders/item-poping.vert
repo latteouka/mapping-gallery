@@ -38,12 +38,12 @@ void main(){
   float pop = min(2.0*u_progress, 2.0*(1.0 - u_progress));
 
   // add limit at 1
-  float zProgress = mix(
-      clamp(2.0*u_progress, 0.0, 1.0),
-      clamp(1.0 - 2.0*(1.0-u_progress), 0.0, 1.0),
-      u_direction
-    );
-  // float zProgress = clamp(2.0*u_progress, 0.0, 1.0);
+  // float zProgress = mix(
+  //     clamp(2.0*u_progress, 0.0, 1.0),
+  //     clamp(1.0 - 2.0*(1.0-u_progress), 0.0, 1.0),
+  //     u_direction
+  //   );
+  float zProgress = clamp(2.0*u_progress, 0.0, 1.0);
 
   pos.z += zIntensity * (effect * 30.0 * pop + u_progress * 30.0) * zProgress;
   //
