@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { Item } from "../Item";
 import { Image } from "../GridItems";
-import vertex from "./shaders/item-change.vert";
-import fragment from "./shaders/item-change.frag";
+import vertex from "./shaders/item-poping.vert";
+import fragment from "./shaders/item-poping.frag";
 import { Update } from "../../libs/update";
 import { Func } from "../../core/func";
 import { lenis } from "../SmoothScroll";
@@ -10,10 +10,10 @@ import { Param } from "../../core/param";
 import { TexLoader } from "../../webgl/texLoader";
 import gsap from "gsap";
 
-const plane = new THREE.PlaneGeometry(1, 1, 64, 64);
+const plane = new THREE.PlaneGeometry(1, 1, 16, 16);
 
-export class ItemChange extends Item {
-  mesh: ItemChangeMesh;
+export class ItemPoping extends Item {
+  mesh: ItemPopingMesh;
   private _texture1: THREE.Texture;
   private _texture2: THREE.Texture;
   protected _element: Image;
@@ -50,52 +50,21 @@ export class ItemChange extends Item {
           value: this._texture2,
         },
         u_progress: {
-          value: Param.instance.main.distort_progress.value,
+          value: Param.instance.main.poping_progress.value,
         },
-        u_tprogress: {
-          value: Param.instance.main.texture_progress.value,
-        },
-        u_pixelRatio: {
-          value: window.devicePixelRatio,
+        u_direction: {
+          value: Param.instance.main.poping_direction.value,
         },
       },
       transparent: true,
       opacity: 0.1,
     });
 
-    this.mesh = new ItemChangeMesh(plane, material);
+    this.mesh = new ItemPopingMesh(plane, material);
     this.mesh.name = "item-gradient";
     this.add(this.mesh);
     this.scale.set(this._element.width, this._element.width, 1);
     this.position.set(this._element.position.x, this._element.position.y, 0);
-
-    this._animate1();
-  }
-
-  private _animate1() {
-    gsap.to(Param.instance.main.distort_progress, {
-      value: 1,
-      delay: 2,
-      duration: 4,
-      onComplete: () => {
-        this._animate2();
-      },
-    });
-    gsap.to(Param.instance.main.texture_progress, {
-      value: Param.instance.main.texture_progress.value === 1 ? 0 : 1,
-      delay: 2,
-      duration: 4,
-    });
-  }
-  private _animate2() {
-    gsap.to(Param.instance.main.distort_progress, {
-      value: 0,
-      delay: 2,
-      duration: 4,
-      onComplete: () => {
-        this._animate1();
-      },
-    });
   }
 
   protected _update(): void {
@@ -110,10 +79,9 @@ export class ItemChange extends Item {
 
     material.uniforms.u_time.value = Update.instance.cnt / 100;
     material.uniforms.u_progress.value =
-      Param.instance.main.distort_progress.value;
-    material.uniforms.u_tprogress.value =
-      Param.instance.main.texture_progress.value;
-    material.uniforms.u_progress.value = window.devicePixelRatio;
+      Param.instance.main.poping_progress.value;
+    material.uniforms.u_direction.value =
+      Param.instance.main.poping_direction.value;
   }
 
   protected _resize(): void {
@@ -125,11 +93,27 @@ export class ItemChange extends Item {
   }
 }
 
-export class ItemChangeMesh extends THREE.Mesh {
+export class ItemPopingMesh extends THREE.Mesh {
   constructor(geo: THREE.PlaneGeometry, mat: THREE.ShaderMaterial) {
     super(geo, mat);
   }
-  onHover() {}
+  onHover() {
+    gsap.to(Param.instance.main.poping_progress, {
+      value: 1,
+      duration: 1.5,
+      onComplete: () => {
+        Param.instance.main.poping_direction.value = 0;
+      },
+    });
+  }
   onClick() {}
-  onTouchLeave() {}
+  onTouchLeave() {
+    gsap.to(Param.instance.main.poping_progress, {
+      value: 0,
+      duration: 1.5,
+      onComplete: () => {
+        Param.instance.main.poping_direction.value = 1;
+      },
+    });
+  }
 }

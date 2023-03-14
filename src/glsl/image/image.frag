@@ -6,6 +6,7 @@ uniform float u_dragVelocityX;
 uniform float u_dragVelocityY;
 uniform vec2 u_meshSize;
 uniform vec2 u_textureSize;
+uniform vec2 u_resolution;
 
 varying vec3 v_pos;
 varying vec2 v_uv;
@@ -36,7 +37,6 @@ void main(void) {
 
   // vec4 color = texture2D(u_imageTexture, distortUv);
   vec4 color = texture2D(u_imageTexture, uv);
-
   if(color.r < 0.1) discard;
 
   gl_FragColor = color;

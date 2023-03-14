@@ -25,6 +25,8 @@ export class Param {
     point_progress: { value: 0, min: 0, max: 1 },
     distort_progress: { value: 0, min: 0, max: 1 },
     texture_progress: { value: 0, min: 0, max: 1 },
+    poping_progress: { value: 0, min: 0, max: 1 },
+    poping_direction: { value: 1, min: 0, max: 1 },
   };
 
   constructor() {

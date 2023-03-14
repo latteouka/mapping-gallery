@@ -16,6 +16,8 @@ import { ItemPoints } from "./Items/ItemPoints";
 import { ItemDistort } from "./Items/ItemDistort";
 import { Background } from "./Background";
 import { ItemChange } from "./Items/ItemChange";
+import { ItemPoping } from "./Items/ItemPoping";
+import { Post } from "./Post";
 // import gsap from "gsap";
 
 // const scroll = { value: 0 };
@@ -29,6 +31,8 @@ export class Visual extends Canvas {
   private _hovered: { [key: string]: any } = {};
 
   private _intersects: any;
+
+  private _composer: Post;
 
   constructor(opt: any) {
     super(opt);
@@ -70,6 +74,7 @@ export class Visual extends Canvas {
         if (hit.object.onClick) hit.object.onClick();
       });
     });
+    this._composer = new Post(this.renderer, this.mainScene, this.cameraPers);
   }
 
   protected intersect() {
@@ -118,6 +123,8 @@ export class Visual extends Canvas {
         let item;
         if (i === 9) {
           item = new ItemGrainSphere(image);
+        } else if (i === 7) {
+          item = new ItemPoping(image);
         } else if (i === 22) {
           item = new ItemDistort(image);
         } else if (i === 20) {
@@ -185,7 +192,12 @@ export class Visual extends Canvas {
   private _render(): void {
     // this._stats.begin();
     this.renderer.setClearColor("#000", 1);
-    this.renderer.render(this.mainScene, this.cameraPers);
+    // this.renderer.render(this.mainScene, this.cameraPers);
+    this._composer.effectComposer.render();
+    this._composer.effect1.uniforms.u_resolution.value.set(
+      Func.instance.sw(),
+      Func.instance.sh()
+    );
     // this._stats.end();
   }
 
@@ -205,10 +217,13 @@ export class Visual extends Canvas {
 
     this._updateOrthCamera(this.cameraOrth, w, h);
 
-    this.cameraPers.fov = 45;
+    // this.cameraPers.fov = 45;
     this._updatePersCamera(this.cameraPers, w, h);
 
     let pixelRatio: number = window.devicePixelRatio || 1;
+    if (this._composer) {
+      this._composer.effect1.uniforms.u_pixelRatio.value = pixelRatio;
+    }
     this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(w, h);
     this.renderer.clear();

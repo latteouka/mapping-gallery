@@ -1,11 +1,15 @@
-const CurveShader = {
+import * as THREE from "three";
+
+const EdgeGrayShader = {
   uniforms: {
     tDiffuse: { value: null },
-    u_scrollVelocity: { value: 0 },
+    u_pixelRatio: { value: window.devicePixelRatio },
+    u_resolution: {
+      value: new THREE.Vector2(),
+    },
   },
 
   vertexShader: /* glsl */ `
-    uniform float u_scrollVelocity;
     varying vec2 vUv;
 
 		void main() {
@@ -16,24 +20,29 @@ const CurveShader = {
 		}`,
 
   fragmentShader: /* glsl */ `
-    uniform float u_scrollVelocity;
 		uniform sampler2D tDiffuse;
+    uniform vec2 u_resolution;
+    uniform float u_pixelRatio;
 		varying vec2 vUv;
 
 		void main() {
-      vec2 uvCurve = vUv;
+			vec4 color = texture2D(tDiffuse, vUv);
 
-      if(u_scrollVelocity > 0.0){
-        vUv.y = cos(uvCurve.y - 0.5) * u_scrollVelocity * -100.0;
-      }
-      else {
-        vUv.y = cos(uvCurve.y - 0.5) * u_scrollVelocity * 100.0;
-      }
+      float alpha = color.a;
+      float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
 
-			vec4 color = texture2D( tDiffuse, vUv );
-			gl_FragColor = color;
+      vec2 uv = gl_FragCoord.xy / u_resolution / u_pixelRatio;
 
+      float center = smoothstep(0.0, 0.1,uv.x)* 
+                      smoothstep(0.0, 0.1, 1.0 - uv.x)*
+                      smoothstep(0.0, 0.1,uv.y)*
+                      smoothstep(0.0, 0.1, 1.0 - uv.y);
+
+      vec4 final = mix(vec4(vec3(gray), alpha), color, center);
+
+      gl_FragColor = final;
+      // gl_FragColor = vec4(uv.x, 0.0, 0.0, 1.0);
 		}`,
 };
 
-export { CurveShader };
+export { EdgeGrayShader };

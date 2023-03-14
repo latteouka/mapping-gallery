@@ -6,6 +6,7 @@ uniform sampler2D u_texture2;
 uniform float u_time;
 uniform float u_progress;
 uniform float u_tprogress;
+uniform float u_pixelRatio;
 
 varying vec3 v_pos;
 varying vec3 v_normal;
@@ -17,14 +18,13 @@ varying vec4 v_mv;
 float PI = 3.1415926535897932384626433832795;
 
 void main(void) {
-  vec2 coord = v_mv.xy / u_resolution;
-  float factor = smoothstep(0.0, 1.0, sin((coord.y + 0.1) * PI));
+  vec2 centerCoord = (gl_FragCoord.xy) / u_resolution / u_pixelRatio;
+  float factor = smoothstep(0.4, 0.6, centerCoord.y);
 
   vec4 color = texture2D(u_texture, v_uv);
   vec4 texture2 = texture2D(u_texture2, v_uv);
 
   vec4 final = mix(color, texture2, factor);
-
   // gl_FragColor = vec4(newUv, 0.0, 1.0);
   // gl_FragColor = vec4(length(centeredUV),0.0,  0.0, 1.0);
   // gl_FragColor = vec4(centeredUV, 0.0, 1.0);

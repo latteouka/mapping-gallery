@@ -41,6 +41,7 @@ export class Canvas extends MyDisplay {
     }
 
     this.renderer = new WebGLRenderer(renderParam);
+    // this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.autoClear = true;
     this.renderer.setClearColor(0xffffff, 1);
 
@@ -61,7 +62,7 @@ export class Canvas extends MyDisplay {
   }
 
   protected _makePersCamera(): PerspectiveCamera {
-    return new PerspectiveCamera(60, 1, 0.0000001, 50000);
+    return new PerspectiveCamera(60, 1, 0.01, 10000);
   }
   protected _makeOrthCamera(): OrthographicCamera {
     return new OrthographicCamera(1, 1, 1, 1);
@@ -72,6 +73,7 @@ export class Canvas extends MyDisplay {
     w: number = 10,
     h: number = 10
   ) {
+    camera.fov = 45;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     camera.position.z = h / Math.tan((camera.fov * Math.PI) / 360) / 2;
