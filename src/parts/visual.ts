@@ -18,7 +18,18 @@ import { Background } from "./Background";
 import { ItemChange } from "./Items/ItemChange";
 import { ItemPoping } from "./Items/ItemPoping";
 import { Post } from "./Post";
+import { ItemEdge } from "./Items/ItemEdge";
+import { ItemMask } from "./Items/ItemMask";
+import { ItemFbo } from "./Items/ItemFbo";
 // import gsap from "gsap";
+const oCamera = new THREE.OrthographicCamera(
+  -1,
+  1,
+  1,
+  -1,
+  1 / Math.pow(2, 53),
+  1
+);
 
 // const scroll = { value: 0 };
 export class Visual extends Canvas {
@@ -33,6 +44,8 @@ export class Visual extends Canvas {
   private _intersects: any;
 
   private _composer: Post;
+
+  private _itemMask: ItemMask | null = null;
 
   constructor(opt: any) {
     super(opt);
@@ -124,25 +137,28 @@ export class Visual extends Canvas {
         if (i === 9) {
           item = new ItemGrainSphere(image);
         } else if (i === 7) {
-          item = new ItemPoping(image);
-        } else if (i === 22) {
-          item = new ItemDistort(image);
-        } else if (i === 20) {
-          item = new ItemGradient(image);
-        } else if (i === 19) {
-          item = new ItemPoints(image);
-        } else if (i === 18) {
-          item = new ItemRaymarching(image);
-        } else if (i === 21) {
-          item = new ItemStroke(image);
-        } else if (i === 23) {
-          item = new ItemChange(image);
-          // } else if (i === 22) {
-          //   item = new ItemGradient(image);
+          item = new ItemEdge(image);
         } else if (i === 8) {
           item = new ItemTitle(image);
-          // } else if (i === 14) {
-          //   item = new ItemStack(image);
+        } else if (i === 11) {
+          item = new ItemMask(image);
+          this._itemMask = item;
+        } else if (i === 12) {
+          item = new ItemPoping(image);
+        } else if (i === 10) {
+          item = new ItemFbo(image);
+          // } else if (i === 18) {
+          //   item = new ItemRaymarching(image);
+        } else if (i === 19) {
+          item = new ItemPoints(image);
+        } else if (i === 20) {
+          item = new ItemGradient(image);
+        } else if (i === 21) {
+          item = new ItemStroke(image);
+        } else if (i === 22) {
+          item = new ItemDistort(image);
+        } else if (i === 23) {
+          item = new ItemChange(image);
         } else {
           item = new ImageItem(image);
         }
@@ -157,8 +173,13 @@ export class Visual extends Canvas {
           item = new ItemGrainSphere(image);
         } else if (i === 9) {
           item = new ItemTitle(image);
+        } else if (i === 8) {
+          item = new ItemEdge(image);
         } else if (i === 16) {
           item = new ItemPoints(image);
+        } else if (i === 12) {
+          item = new ItemMask(image);
+          this._itemMask = item;
         } else if (i === 20) {
           item = new ItemChange(image);
         } else if (i === 21) {
@@ -192,12 +213,12 @@ export class Visual extends Canvas {
   private _render(): void {
     // this._stats.begin();
     this.renderer.setClearColor("#000", 1);
+    this.renderer.setRenderTarget(this._itemMask!.renderTarget);
+    this.renderer.render(this._itemMask!.scene1, this.cameraPers);
+
+    this.renderer.setRenderTarget(null);
     // this.renderer.render(this.mainScene, this.cameraPers);
     this._composer.effectComposer.render();
-    this._composer.effect1.uniforms.u_resolution.value.set(
-      Func.instance.sw(),
-      Func.instance.sh()
-    );
     // this._stats.end();
   }
 
@@ -221,9 +242,6 @@ export class Visual extends Canvas {
     this._updatePersCamera(this.cameraPers, w, h);
 
     let pixelRatio: number = window.devicePixelRatio || 1;
-    if (this._composer) {
-      this._composer.effect1.uniforms.u_pixelRatio.value = pixelRatio;
-    }
     this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(w, h);
     this.renderer.clear();

@@ -31,11 +31,11 @@ void main(){
   if (u_isPC) {
     intensity = 30.0;
     rotateFactor = 10.0;
-    dragIntensity = 200.0;
+    dragIntensity = 100.0;
   } else {
-    intensity = 120.0;
+    intensity = 100.0;
     rotateFactor = 0.5;
-    dragIntensity = 450.0;
+    dragIntensity = 100.0;
   }
 
   float x = 0.0;

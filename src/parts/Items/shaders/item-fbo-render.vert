@@ -1,3 +1,5 @@
+attribute vec3 barycentric;
+
 uniform float u_time;
 uniform float u_scrollVelocity;
 uniform float u_dragVelocityX;
@@ -22,39 +24,8 @@ void main(){
 
   float time = u_time;
   vec3 pos = position;
-
-  // --------------
-  float d = length(uv - vec2(0.5));
-  float maxdist = length(vec2(0.5));
-
-  float normalizedDist = d/maxdist;
-  float up = 1.0 - normalizedDist;
-  float down = normalizedDist;
-
-  // based on distance from center -> circle drag effect
-  float effect = mix(up, down, u_direction);
-
-  // stretch range of the animation
-  float zIntensity = 3.0;
-
-  // this is for up and down
-  float pop = min(2.0*u_progress, 2.0*(1.0 - u_progress));
-
-  // add stop at 1 so the animation will have a stop effect
-  float zProgress = mix(
-      clamp(2.0*u_progress, 0.0, 1.0),
-      clamp(1.0 - 2.0*(1.0-u_progress), 0.0, 1.0),
-      u_direction
-    );
-
-  // drag part
-  pos.z += zIntensity * (effect * 10.0 * pop + u_progress * 10.0) * zProgress;
-  // distort animation when still
-  pos.z += (1.0 - u_progress) * sin(d* 10.0 + u_time) * 15.0;
-  // --------------
-  
   vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-  
+
   vec2 coord = mvPosition.xy / u_resolution;
   vec2 uvCurve = uv;
 

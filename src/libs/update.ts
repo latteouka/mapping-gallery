@@ -1,15 +1,20 @@
+import * as THREE from "three";
+
 export class Update {
   private static _instance: Update;
 
-  // 更新回数
+  // count and elapsed time
   public cnt: number = 0;
+  private _clock: THREE.Clock;
+  public elapsed: number = 0;
 
-  // 毎フレーム実行させる関数を保持
+  // use add function to participate in frame update
   private _updateList: Array<Function> = [];
 
   public play: boolean = true;
 
   constructor() {
+    this._clock = new THREE.Clock();
     window.requestAnimationFrame(this._update);
   }
 
@@ -37,6 +42,7 @@ export class Update {
   _update = () => {
     if (this.play) {
       this.cnt++;
+      this.elapsed = this._clock.getElapsedTime();
       for (var item of this._updateList) {
         if (item != null) item();
       }

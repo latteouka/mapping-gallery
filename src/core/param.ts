@@ -27,6 +27,8 @@ export class Param {
     texture_progress: { value: 0, min: 0, max: 1 },
     poping_progress: { value: 0, min: 0, max: 1 },
     poping_direction: { value: 1, min: 0, max: 1 },
+    fbo_speed: { value: 0.01, min: 0.01, max: 5 },
+    fbo_curl: { value: 0.01, min: 0.01, max: 5 },
   };
 
   constructor() {

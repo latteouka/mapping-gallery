@@ -10,7 +10,7 @@ import { Param } from "../../core/param";
 import { TexLoader } from "../../webgl/texLoader";
 import gsap from "gsap";
 
-const plane = new THREE.PlaneGeometry(1, 1, 16, 16);
+const plane = new THREE.PlaneGeometry(1, 1, 100, 100);
 
 export class ItemPoping extends Item {
   mesh: ItemPopingMesh;
@@ -72,6 +72,7 @@ export class ItemPoping extends Item {
 
     this.position.set(this._element.position.x, this._element.position.y, 0);
 
+    // uniforms update
     const material = this.mesh.material as THREE.ShaderMaterial;
     material.uniforms.u_dragVelocityX.value = this._mousePointer.velocityX;
     material.uniforms.u_dragVelocityY.value = this._mousePointer.velocityY;
@@ -98,22 +99,20 @@ export class ItemPopingMesh extends THREE.Mesh {
     super(geo, mat);
   }
   onHover() {
+    Param.instance.main.poping_direction.value = 0;
     gsap.to(Param.instance.main.poping_progress, {
       value: 1,
       duration: 1.5,
-      onComplete: () => {
-        Param.instance.main.poping_direction.value = 0;
-      },
+      onComplete: () => {},
     });
   }
   onClick() {}
   onTouchLeave() {
+    Param.instance.main.poping_direction.value = 1;
     gsap.to(Param.instance.main.poping_progress, {
       value: 0,
       duration: 1.5,
-      onComplete: () => {
-        Param.instance.main.poping_direction.value = 1;
-      },
+      onComplete: () => {},
     });
   }
 }

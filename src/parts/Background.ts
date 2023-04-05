@@ -7,7 +7,7 @@ import { Func } from "../core/func";
 import { TexLoader } from "../webgl/texLoader";
 
 // normal plane
-const geometry = new THREE.PlaneGeometry(1, 1);
+const geometry = new THREE.PlaneGeometry(2, 2);
 
 export class Background extends MyObject3D {
   mesh: THREE.Mesh;
@@ -37,7 +37,7 @@ export class Background extends MyObject3D {
   protected _update(): void {
     super._update();
     const material = this.mesh.material as THREE.ShaderMaterial;
-    material.uniforms.u_time.value = Update.instance.cnt / 2000;
+    material.uniforms.u_time.value = Update.instance.elapsed / 100;
   }
 
   protected _resize(): void {

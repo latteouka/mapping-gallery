@@ -3,7 +3,7 @@ import { Rect } from "./rect";
 export class Resize {
   private static _instance: Resize;
 
-  // レイアウト更新時に実行させる関数を保持
+  // use add function to participate in resize update
   private _list: Array<Function> = [];
 
   private _timer: any = null;

@@ -92,6 +92,8 @@ export class Grid {
     this._layoutHandler = this._resize.bind(this);
     Resize.instance.add(this._layoutHandler);
 
+    this._translate(0);
+
     lenis.on("scroll", ({ velocity }: any) => {
       this._translate(velocity);
     });
@@ -160,8 +162,8 @@ export class Grid {
 
   private _updateDrag() {
     // keep moving after touchleave
-    this._translateX += MousePointer.instance.velocityX * 2;
-    this._translateY += MousePointer.instance.velocityY * 2;
+    this._translateX += MousePointer.instance.velocityX * 1.0;
+    this._translateY += MousePointer.instance.velocityY * 1.0;
     this._translate(0);
   }
 
